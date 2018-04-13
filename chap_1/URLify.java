@@ -39,12 +39,15 @@ class Rextester
     
     
     // If implementing in Java, please use a character array so that you can perform this operation in place
+    //
+    // s.toCharArray(): a newly allocated character array whose length is the length of this string and whose contents are initialized to contain the character sequence represented by this string.
     static String URLify_2(String s, int actualLen)
     {
+        char[] arr = s.toCharArray();
+        
+        
+        
         return "";
      
-        
-        
-        
     }
 }
