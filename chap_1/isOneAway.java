@@ -30,6 +30,9 @@ class Rextester
         
         s1 = "pale"; s2 = "lpea";
         System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway(s1, s2));
+        
+        s1 = "pale"; s2 = "palke";
+        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway(s1, s2));
     }
     
     static boolean isOneAway(String s1, String s2)
@@ -81,4 +84,50 @@ class Rextester
         }
         return true;
     }
+
+    // try to only use one pass
+    static boolean isOneAway_1(String s1, String s2)
+    {
+        int len1 = s1.length();
+        int len2 = s2.length();
+        
+        if (s1.equals(s2)) return true;
+        
+        if (Math.abs(len1 - len2) > 1) return false;
+        
+        // Now consider the case of s1 and s2 are of different length
+        // First let's make sure s1 and len1 refer to the longer string
+        if (len1 < len2) {
+            int tmp = len1;
+            String t = s1;
+            
+            // swap s1 and s2
+            len1 = len2; len2 = tmp;
+            s1 = s2; s2 = t;
+        }
+
+        // now check s1 and s2 one char a time
+        boolean oneInsert = false;
+        boolean oneReplace = false;
+        int i1 = 0, i2 = 0;
+        
+        while (i1 < len1 && i2 < len2) {
+            if (s1.charAt(i1) == s2.charAt(i2)) {
+                i1++; i2++; continue;
+            }
+            
+            if (len1 == len2) {
+                if (oneReplace) return false;
+                
+                i1++; i2++; onReplace = true; continue;
+            }
+            
+            if (oneInsert) return false;
+            
+            i1++;
+            oneInsert = true;
+        }
+        return true;
+    }
+
 }
