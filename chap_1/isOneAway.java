@@ -17,22 +17,22 @@ class Rextester
     public static void main(String args[])
     {
         String s1 = "pale", s2 = "ple";
-        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway(s1, s2));
+        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway_1(s1, s2));
         
         s1 = "pales"; s2 = "pale";
-        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway(s1, s2));
+        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway_1(s1, s2));
 
         s1 = "pale"; s2 = "bale";
-        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway(s1, s2));
+        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway_1(s1, s2));
         
         s1 = "pale"; s2 = "bake";
-        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway(s1, s2));
+        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway_1(s1, s2));
         
         s1 = "pale"; s2 = "lpea";
-        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway(s1, s2));
+        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway_1(s1, s2));
         
         s1 = "pale"; s2 = "palke";
-        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway(s1, s2));
+        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway_1(s1, s2));
     }
     
     static boolean isOneAway(String s1, String s2)
@@ -119,7 +119,7 @@ class Rextester
             if (len1 == len2) {
                 if (oneReplace) return false;
                 
-                i1++; i2++; onReplace = true; continue;
+                i1++; i2++; oneReplace = true; continue;
             }
             
             if (oneInsert) return false;
