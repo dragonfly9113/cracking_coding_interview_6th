@@ -4,14 +4,35 @@
 import java.util.*;
 import java.lang.*;
 
+// 1.5 One Away (one edit away)
+
+// Example
+// pale, ple -> true
+// pales, pale -> true
+// pale, bale -> true
+// pale, bake -> false
+
 class Rextester
 {  
     public static void main(String args[])
     {
-        System.out.println("Hello, World!");
+        String s1 = "pale", s2 = "ple";
+        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway(s1, s2));
+        
+        s1 = "pales"; s2 = "pale";
+        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway(s1, s2));
+
+        s1 = "pale"; s2 = "bale";
+        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway(s1, s2));
+        
+        s1 = "pale"; s2 = "bake";
+        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway(s1, s2));
+        
+        s1 = "pale"; s2 = "lpea";
+        System.out.println("s1 = " + s1 + "  s2 = " + s2 + " : " + isOneAway(s1, s2));
     }
     
-    boolean isOneAway(String s1, String s2)
+    static boolean isOneAway(String s1, String s2)
     {
         int len1 = s1.length();
         int len2 = s2.length();
