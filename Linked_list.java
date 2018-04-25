@@ -78,6 +78,15 @@ class Rextester
             prev_node.next = new_node;
         }
         
+        // Given a key, deletes the first occurance of key in the linked list
+        public void deleteNode(int key)
+        {
+             
+            
+            
+            
+        }
+        
         // Print out the list
         public void printList()
         {
