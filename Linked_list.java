@@ -21,6 +21,11 @@ class Rextester
         
         llist.insertAfter(llist.head.next, 6);
         
+        llist.deleteNode(6);
+        llist.deleteNode(7);
+        llist.deleteNode(3);
+        llist.deleteNode(5);
+            
         llist.printList();
     }
 
@@ -81,10 +86,24 @@ class Rextester
         // Given a key, deletes the first occurance of key in the linked list
         public void deleteNode(int key)
         {
-             
+            // empty list, abort deletion
+            if (head == null) return;
             
+            // the first occurance of key is the head, delete the head
+            if (head.data == key) {
+                head = head.next;
+                return;
+            }
+                        
+            Node temp = head;
+            while (temp.next != null && temp.next.data != key)
+                temp = temp.next;
             
+            // no occurance of key found, abort deletion
+            if (temp.next == null) return;
             
+            // found the first occurance of key, delete the according node
+            temp.next = temp.next.next;
         }
         
         // Print out the list
