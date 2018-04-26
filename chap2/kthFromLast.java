@@ -121,6 +121,7 @@ class Rextester
         }
         
         // Return the Kth node from the last node
+        // Time complexity: O(n)
         public Node kthFromLast(int k)
         {     
             if (nodeCount == 0 || k < 0 || k >= nodeCount) return null;
