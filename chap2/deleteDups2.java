@@ -99,6 +99,7 @@ class Rextester
         }
         
         // Remove duplicate node(s)
+        // space complexity: O(n), time complexity: O(n)
         public void deleteDups() {
             HashSet<Integer> set = new HashSet<Integer>();
             
@@ -119,6 +120,32 @@ class Rextester
             }
         }
         
+        // Another version of deleteDups(): do not use a buffer
+        // space complexity: O(1), time complexity: O(n^2)
+        public void deleteDups_1() {
+            Node current = head;
+            Node runner = null, prev = null;
+            
+            while (current != null) {
+                prev = current;
+                runner = current.next;
+                while (runner != null) {
+                    // if this node is a duplicate, remove it
+                    if (runner.data == current.data) {
+                        prev.next = runner.next;
+                        count--;
+                    }
+                    else
+                        prev = prev.next;
+                    
+                    runner = runner.next;
+                }
+                
+                // all dups of current node has been removed, now move current to next one
+                current = current.next;
+            }
+        }
+            
         // Return the size of the list by traversing through the list
         // Time complexity: O(n)
         public int getSize()
@@ -182,7 +209,8 @@ class Rextester
         llist.printList();
         System.out.println("getCount() = " + llist.getCount());
         
-        llist.deleteDups();
+        //llist.deleteDups();
+        llist.deleteDups_1();
         llist.printList();
         System.out.println("getCount() = " + llist.getCount());
     }
