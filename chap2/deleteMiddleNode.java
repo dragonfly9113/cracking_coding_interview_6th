@@ -164,6 +164,7 @@ class Rextester
         // Example:
         // input: the node c from the linked list a->b->c->d->e->f
         // output: nothing is returned, but the new list looks like: a->b->d->e->f
+        // !!! This version is wrong because we only have access to that node to be deleted (no access to the head node) !!!
         public void deleteMiddleNode(Node n)
         {
             // if there is no middle node, abort deletion
@@ -185,6 +186,18 @@ class Rextester
                 }
             }
         }
+        
+        // Correct version
+        public boolean deleteMiddleNode_1(Node n)
+        {
+            // we cannot delete a null or the last node
+            if (n == null || n.next == null) return false;
+            
+            n.data = n.next.data;
+            n.next = n.next.next;
+            nodeCount--;
+            return true;
+       }
         
         // Return the size of the list by traversing through the list
         // Time complexity: O(n)
@@ -259,9 +272,13 @@ class Rextester
         */
         
         // delete specified middle node
-        Linked_list.Node n = llist.getNode(2);
-        llist.deleteMiddleNode(n);
-        llist.printList();
-        System.out.println("getCount() = " + llist.getCount());
+        Linked_list.Node n = llist.getNode(5);
+        //llist.deleteMiddleNode(n);
+        if (llist.deleteMiddleNode_1(n)) {
+            llist.printList();
+            System.out.println("getCount() = " + llist.getCount());
+        }
+        else
+            System.out.println("Delete failed!");
     }
 }
