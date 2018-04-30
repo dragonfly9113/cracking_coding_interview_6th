@@ -205,23 +205,51 @@ class Rextester
             while (temp != null) {
                 
                 if (temp.data < pivot) {
-                    p1.next = temp;
+                    Node n = new Node(temp.data);
+                    p1.next = n;
                     p1 = p1.next;
-                    //p1.next = null;
                 }
                 else {
-                    p2.next = temp;
+                    Node n = new Node(temp.data);
+                    p2.next = n;
                     p2 = p2.next;
-                    //p2.next = null;
                 }
                 temp = temp.next;
             }
             
             // concatenate two lists together
             p1.next = head2.next;    // skip the dummy head of list2
-            
             head = head1.next;    // skip the dummy head of list1
-            //head = head2;
+        }
+
+        // try not to create new nodes
+        public void partitionList_1(int pivot)
+        {
+            // two dummy heads: head1 is for the left partition and head2 is for the right
+            Node p1 = new Node(-1);
+            Node p2 = new Node(-1);
+            Node head1 = p1, head2 = p2;
+            
+            Node temp = head;
+            while (temp != null) {
+                
+                if (temp.data < pivot) {
+                    p1.next = temp;
+                    p1 = p1.next;
+                }
+                else {
+                    p2.next = temp;
+                    p2 = p2.next;
+                }
+                temp = temp.next;
+            }
+            
+            p1.next = null;
+            p2.next = null;
+            
+            // concatenate two lists together
+            p1.next = head2.next;    // skip the dummy head of list2
+            head = head1.next;    // skip the dummy head of list1
         }
         
         // Return the size of the list by traversing through the list
@@ -315,7 +343,7 @@ class Rextester
         System.out.println("getCount() = " + l2.getCount());
 
         System.out.println("After partitionList(): ");
-        l2.partitionList(8);
+        l2.partitionList_1(8);
         l2.printList();
         System.out.println("getCount() = " + l2.getCount());
     }
