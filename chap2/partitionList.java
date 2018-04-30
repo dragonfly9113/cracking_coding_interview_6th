@@ -194,33 +194,34 @@ class Rextester
         // Example:
         // input: 3 5 8 5 10 2 1 (partition = 5)
         // output: 3 1 2 10 5 5 8
-        public void partitionList(int x)
+        public void partitionList(int pivot)
         {
-            int count = 0;
-            Node temp = head;
-            Node prev = null;
+            // two dummy heads: head1 is for the left partition and head2 is for the right
+            Node p1 = new Node(-1);
+            Node p2 = new Node(-1);
+            Node head1 = p1, head2 = p2;
             
-            while ( count < nodeCount ) {
-                // if this node's value is less than x, it can be kept in place, just move on to the next node
-                if (temp.data < x) {
-                    prev = temp;
-                }
-                // if this node's value is greater than or equal to x, move it to the end (delete this node and append it to the end)
-                else {
-                    // delete this node
-                    if (prev == null)
-                        head = temp.next;
-                    else
-                        prev.next = temp.next;
-                    nodeCount--;
-                    
-                    // append it to the end
-                    append(temp.data);
-                }
+            Node temp = head;
+            while (temp != null) {
                 
+                if (temp.data < pivot) {
+                    p1.next = temp;
+                    p1 = p1.next;
+                    //p1.next = null;
+                }
+                else {
+                    p2.next = temp;
+                    p2 = p2.next;
+                    //p2.next = null;
+                }
                 temp = temp.next;
-                count++;
             }
+            
+            // concatenate two lists together
+            p1.next = head2.next;    // skip the dummy head of list2
+            
+            head = head1.next;    // skip the dummy head of list1
+            //head = head2;
         }
         
         // Return the size of the list by traversing through the list
@@ -296,13 +297,16 @@ class Rextester
         */
         
         // 2.3 delete specified middle node
+        /*
         Linked_list.Node n = llist.getNode(2);
         llist.deleteMiddleNode(n);
         llist.printList();
         System.out.println("getCount() = " + llist.getCount());
+        */
         
         // 2.4 Partition: write code to partition a linked list around a value x
         // input: 3 5 8 5 10 2 1 (partition = 5)
+        System.out.println();
         System.out.println("A new list l2: ");
         Linked_list l2 = new Linked_list();
         int[] b = {3, 5, 8, 5, 10, 2, 1};
