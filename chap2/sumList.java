@@ -284,8 +284,7 @@ class Rextester
                 list.head = list.head.next;
                 return list;
             }
-            
-            Node sumNode = null;
+                        Node sumNode = null;
             if (p1 == null) {
                 int sum = p2.data + carry;
                 sumNode = new Node(sum);
@@ -298,6 +297,20 @@ class Rextester
             p.next = sumNode;
             list.head = list.head.next;
             return list;
+        }
+        
+        // Reverse the link
+        public void reverseLink()
+        {
+            Node c = head, p = null;
+            
+            while (c != null) {
+                Node t = c;
+                c = c.next;
+                t.next = p;
+                p = t;
+            }
+            head = p;
         }
         
         // Return the size of the list by traversing through the list
@@ -390,7 +403,6 @@ class Rextester
         l2.buildList(b);
         l2.printList();
         System.out.println("getCount() = " + l2.getCount());
-
         System.out.println("After partitionList(): ");
         l2.partitionList_1(8);
         l2.printList();
@@ -402,8 +414,11 @@ class Rextester
         System.out.println("Test 2.5 sum list");
         Linked_list list1 = new Linked_list();
         Linked_list list2 = new Linked_list();
-        int[] b1 = {2, 1, 6};
-        int[] b2 = {5, 2, 5};
+        //int[] b1 = {2, 1, 6};
+        //int[] b2 = {5, 2, 5};
+        int[] b1 = {9, 7, 8};
+        //int[] b2 = {6, 8, 5};
+        int[]b2 = {6, 8};
         list1.buildList(b1);
         list2.buildList(b2);
         System.out.println("list1 is: ");
