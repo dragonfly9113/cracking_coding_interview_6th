@@ -28,6 +28,7 @@ class Rextester
             private int data;
             private Node next;
             
+            Node() { data = -1; next = null; }
             Node(int d) { data = d; next = null; }
         }
         
@@ -284,7 +285,7 @@ class Rextester
                 list.head = list.head.next;
                 return list;
             }
-                        Node sumNode = null;
+            Node sumNode = null;
             if (p1 == null) {
                 int sum = p2.data + carry;
                 sumNode = new Node(sum);
@@ -298,6 +299,60 @@ class Rextester
             list.head = list.head.next;
             return list;
         }
+
+        // 2.5: sum list: recursive version
+        public static Node addList(Node p1, Node p2, int carry)
+        {
+            if (p1 == null && p2 == null && carry == 0) return null;
+            
+            Node result = new Node();
+            int value = carry;
+            
+            if (p1 != null)
+                value += p1.data;
+            
+            if (p2 != null)
+                value += p2.data;
+            
+            result.data = value % 10;
+            
+            // if there are more digits to add, call addList() again
+            if (p1 != null || p2 != null) {
+                Node more = addList(p1 == null ? null : p1.next,
+                                    p2 == null ? null : p2.next,
+                                    value >= 10 ? 1 : 0);
+                result.next = more;
+            }
+            
+            return result;
+        }
+
+        // 2.5: sum list: follow-up: 
+        // Input: 5->8->9 means 589
+        //        6->7->8 means 678
+        // Output: 1->2->6->7 means 1267
+        //
+        // Input: 5->8->9 means 589
+        //        6->7 means 67
+        // Output: 6->5->6 means 656
+        class Result
+        {
+            Node node = null;
+            int carry = 0;
+        }
+        
+        public static Result addList_rev(Node p1, Node p2, int carry)
+        {
+            if (p1 == null && p2 == null && carry == 0) return null;
+            
+            Result res = addList_rev(p1.next, p2.next, carry);
+            
+            int value = 0;
+            
+            
+            return res;
+        }
+
         
         // Reverse the link
         public void reverseLink()
@@ -417,8 +472,8 @@ class Rextester
         //int[] b1 = {2, 1, 6};
         //int[] b2 = {5, 2, 5};
         int[] b1 = {9, 7, 8};
-        //int[] b2 = {6, 8, 5};
-        int[]b2 = {6, 8};
+        int[] b2 = {6, 8, 5};
+        //int[]b2 = {6, 8};
         list1.buildList(b1);
         list2.buildList(b2);
         System.out.println("list1 is: ");
@@ -426,7 +481,9 @@ class Rextester
         System.out.println("list2 is: ");
         list2.printList();
      
-        Linked_list result = Linked_list.sumList(list1, list2);
+        //Linked_list result = Linked_list.sumList(list1, list2);
+        Linked_list result = new Linked_list();
+        result.head = Linked_list.addList(list1.head, list2.head, 0);
         System.out.println("The sum result is: ");
         result.printList();
     }
