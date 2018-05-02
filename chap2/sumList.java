@@ -327,7 +327,7 @@ class Rextester
             return result;
         }
 
-        // 2.5: sum list: follow-up: 
+        // 2.5: sum list: follow-up: now the most significant digit is stored in the first node
         // Input: 5->8->9 means 589
         //        6->7->8 means 678
         // Output: 1->2->6->7 means 1267
@@ -335,20 +335,50 @@ class Rextester
         // Input: 5->8->9 means 589
         //        6->7 means 67
         // Output: 6->5->6 means 656
-        class Result
+        // In Java, function parameters are passed in by value (no pass-by-reference mechnism), therefore in order to
+        // return two values, we can use the trick as below: use a wrapper class.
+        class PartialSum
         {
-            Node node = null;
-            int carry = 0;
+            public Node node = null;
+            public int carry = 0;
         }
         
-        public static Result addList_rev(Node p1, Node p2, int carry)
+        public static Linked_list addListFollowup(Linked_list l1, Linked_list l2)
         {
-            if (p1 == null && p2 == null && carry == 0) return null;
+            // To make the task easier, we make sure that the two lists be of the same length by padding zeros in the shorter one
+            if (l1.getCount() != l2.getCount())
+                padZeros(l1, l2);
+                
+            l1.printList();
+            l2.printList();
             
-            Result res = addList_rev(p1.next, p2.next, carry);
+            return null;
+        }
+    
+        static void padZeros(Linked_list l1, Linked_list l2)
+        {
+            int len1 = l1.getCount();
+            int len2 = l2.getCount();
+            
+            int diff = Math.abs(len1 - len2);
+            Linked_list listToPad = (len1 < len2) ? l1 : l2;
+            Node head = listToPad.head;
+            
+            for (int i = 0; i < diff; i++) {
+                Node zero = new Node(0);
+                zero.next = head;
+                head = zero;
+            }
+            listToPad.head = head;
+        }
+    
+        PartialSum addListHelper(Node p1, Node p2)
+        {
+            if (p1 == null && p2 == null) return null;
+            
+            PartialSum res = addListHelper(p1.next, p2.next);
             
             int value = 0;
-            
             
             return res;
         }
@@ -471,8 +501,8 @@ class Rextester
         Linked_list list2 = new Linked_list();
         //int[] b1 = {2, 1, 6};
         //int[] b2 = {5, 2, 5};
-        int[] b1 = {9, 7, 8};
-        int[] b2 = {6, 8, 5};
+        int[] b1 = {9, 7, 8, 2};
+        int[] b2 = {6, 8};
         //int[]b2 = {6, 8};
         list1.buildList(b1);
         list2.buildList(b2);
@@ -482,9 +512,11 @@ class Rextester
         list2.printList();
      
         //Linked_list result = Linked_list.sumList(list1, list2);
-        Linked_list result = new Linked_list();
-        result.head = Linked_list.addList(list1.head, list2.head, 0);
+        //Linked_list result = new Linked_list();
+        //result.head = Linked_list.addList(list1.head, list2.head, 0);
+        Linked_list result = Linked_list.addListFollowup(list1, list2);
+        
         System.out.println("The sum result is: ");
-        result.printList();
+        //result.printList();
     }
 }
