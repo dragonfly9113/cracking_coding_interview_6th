@@ -337,7 +337,7 @@ class Rextester
         // Output: 6->5->6 means 656
         // In Java, function parameters are passed in by value (no pass-by-reference mechnism), therefore in order to
         // return two values, we can use the trick as below: use a wrapper class.
-        class PartialSum
+        static class PartialSum
         {
             public Node node = null;
             public int carry = 0;
@@ -348,11 +348,13 @@ class Rextester
             // To make the task easier, we make sure that the two lists be of the same length by padding zeros in the shorter one
             if (l1.getCount() != l2.getCount())
                 padZeros(l1, l2);
-                
-            l1.printList();
-            l2.printList();
             
-            return null;
+            PartialSum res = addListHelper(l1.head, l2.head);
+            
+            Linked_list list = new Linked_list();
+            list.head = res.node;
+                
+            return list;
         }
     
         static void padZeros(Linked_list l1, Linked_list l2)
@@ -372,15 +374,30 @@ class Rextester
             listToPad.head = head;
         }
     
-        PartialSum addListHelper(Node p1, Node p2)
+        static PartialSum addListHelper(Node p1, Node p2)
         {
-            if (p1 == null && p2 == null) return null;
+            if (p1 == null && p2 == null) {
+                PartialSum res = new PartialSum();
+                res.node = null;
+                res.carry = 0;
+                return res;
+            }
             
             PartialSum res = addListHelper(p1.next, p2.next);
             
-            int value = 0;
+            int value = res.carry;
             
-            return res;
+            value += p1.data;
+            value += p2.data;
+            
+            PartialSum helperRes = new PartialSum();
+            helperRes.carry = value >= 10 ? 1 : 0;
+            
+            Node node = new Node(value % 10);
+            node.next = res.node;
+            helperRes.node = node;
+                        
+            return helperRes;
         }
 
         
@@ -501,9 +518,8 @@ class Rextester
         Linked_list list2 = new Linked_list();
         //int[] b1 = {2, 1, 6};
         //int[] b2 = {5, 2, 5};
-        int[] b1 = {9, 7, 8, 2};
-        int[] b2 = {6, 8};
-        //int[]b2 = {6, 8};
+        int[] b1 = {6, 1, 7, 2};
+        int[] b2 = {2, 9, 5};
         list1.buildList(b1);
         list2.buildList(b2);
         System.out.println("list1 is: ");
@@ -517,6 +533,6 @@ class Rextester
         Linked_list result = Linked_list.addListFollowup(list1, list2);
         
         System.out.println("The sum result is: ");
-        //result.printList();
+        result.printList();
     }
 }
