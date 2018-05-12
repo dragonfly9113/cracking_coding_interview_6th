@@ -395,9 +395,32 @@ class Rextester
             return helperRes;
         }
 
+        // 2.6 Palindrome: Implement a function to check if a linked list is a palindrome
+        public boolean isPalindrome()
+        {
+            Linked_list revList = reverseLink();
+            
+            return equalList(revList);
+        }
+
+        // check if two lists are the same
+        public boolean equalList(Linked_list list)
+        {
+            if (list.getCount() != nodeCount) return false;
+            
+            Node p1 = head, p2 = list.head;
+            while (p1 != null) {
+                if (p1.data != p2.data) return false;
+                
+                p1 = p1.next;
+                p2 = p2.next;
+            }
+
+            return true;
+        }
         
-        // Reverse the link
-        public void reverseLink()
+        // Reverse the link: in-place reverse (no new list is created)
+        public void reverseLinkInPlace()
         {
             Node c = head, p = null;
             
@@ -408,6 +431,15 @@ class Rextester
                 p = t;
             }
             head = p;
+        }
+        
+        public Linked_list reverseLink()
+        {
+            Linked_list revList = new Linked_list();
+            
+            
+            
+            return revList;
         }
         
         // Return the size of the list by traversing through the list
@@ -533,7 +565,19 @@ class Rextester
         */
         
         // 2.6 Palindrome: Implement a function to check if a linked list is a palindrome
-        
+        System.out.println();
+        System.out.println("Test 2.6: palindrom list");
+        Linked_list list1 = new Linked_list();
+        Linked_list list2 = new Linked_list();
+        int[] b1 = {1, 2, 3};
+        int[] b2 = {1, 2, 3};
+        list1.buildList(b1);
+        list2.buildList(b2);
+        System.out.println("list1 is: ");
+        list1.printList();
+        System.out.println("list2 is: ");
+        list2.printList();
 
+        System.out.println("list1 and list2 are equal: " + list1.equalList(list2));
     }
 }
