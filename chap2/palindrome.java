@@ -398,15 +398,22 @@ class Rextester
         // 2.6 Palindrome: Implement a function to check if a linked list is a palindrome
         public boolean isPalindrome()
         {
-            Linked_list revList = reverseLink();
+            //Linked_list revList = reverseLink();
+            Linked_list revList = this.copyLink();
+            revList.printList();
+            System.out.println("revList.getCount() = " + revList.getCount());
             
-            return equalList(revList);
+            revList.reverseLinkInPlace();
+            revList.printList();
+            System.out.println("revList.getCount() = " + revList.getCount());
+                        
+            return this.equalList(revList);
         }
 
         // check if two lists are the same
         public boolean equalList(Linked_list list)
         {
-            if (list.getCount() != nodeCount) return false;
+            if (list.getCount() != this.nodeCount) return false;
             
             Node p1 = head, p2 = list.head;
             while (p1 != null) {
@@ -419,10 +426,32 @@ class Rextester
             return true;
         }
         
+        // returns a copy of this link
+        public Linked_list copyLink()
+        {
+            Linked_list newLink = new Linked_list();
+            if (this.head == null) return newLink;
+            
+            Node dummyHead = new Node(-1);
+            Node p1 = this.head, p2 = dummyHead;
+            while (p1 != null) {
+                Node n = new Node(p1.data);
+                p2.next = n;
+                p2 = p2.next;
+                p1 = p1.next;
+                newLink.nodeCount++;
+            }
+       
+            p2.next = null;
+            newLink.head = dummyHead.next;
+            
+            return newLink;
+        }
+        
         // Reverse the link: in-place reverse (no new list is created)
         public void reverseLinkInPlace()
         {
-            Node c = head, p = null;
+            Node c = this.head, p = null;
             
             while (c != null) {
                 Node t = c;
@@ -430,14 +459,13 @@ class Rextester
                 t.next = p;
                 p = t;
             }
-            head = p;
+            this.head = p;
         }
         
+        // returns a new link in reverse order
         public Linked_list reverseLink()
         {
             Linked_list revList = new Linked_list();
-            
-            
             
             return revList;
         }
@@ -473,7 +501,7 @@ class Rextester
         // Print out the list
         public void printList()
         {
-            Node temp = head;
+            Node temp = this.head;
             while (temp != null) {
                 System.out.print(temp.data + " ");
                 temp = temp.next;
@@ -569,7 +597,7 @@ class Rextester
         System.out.println("Test 2.6: palindrom list");
         Linked_list list1 = new Linked_list();
         Linked_list list2 = new Linked_list();
-        int[] b1 = {1, 2, 3};
+        int[] b1 = {4, 5, 5, 4};
         int[] b2 = {1, 2, 3};
         list1.buildList(b1);
         list2.buildList(b2);
@@ -577,7 +605,9 @@ class Rextester
         list1.printList();
         System.out.println("list2 is: ");
         list2.printList();
-
         System.out.println("list1 and list2 are equal: " + list1.equalList(list2));
+        
+        System.out.println("list1 is palindrome: " + list1.isPalindrome());
+        System.out.println("list2 is palindrome: " + list2.isPalindrome());
     }
 }
