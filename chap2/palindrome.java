@@ -398,6 +398,8 @@ class Rextester
         // 2.6 Palindrome: Implement a function to check if a linked list is a palindrome
         public boolean isPalindrome()
         {
+            if (this.head == null) return false;
+            
             Linked_list revList = this.copyLink();
             
             revList.reverseLinkInPlace();
@@ -408,13 +410,44 @@ class Rextester
         // 2.6 Palindrome: another version which uses reverseLink() instead of reverseLinkInPlace()
         public boolean isPalindrome_1()
         {
+            if (this.head == null) return false;
+            
             Linked_list revList = this.reverseLink();
-            System.out.println("current list's count = " + this.getCount());
-            System.out.println("revList's count = " + revList.getCount());
+            //System.out.println("current list's count = " + this.getCount());
+            //System.out.println("revList's count = " + revList.getCount());
             
             return this.equalList(revList);
         }
         
+        // 2.6 Palindrome: how about using a stack?
+        public boolean isPalindrome_2()
+        {
+            if (this.head == null) return false;
+            Node p = this.head;
+            
+            // push all nodes into a stack
+            Stack<Integer> stack = new Stack<Integer>();
+            while (p != null) {
+                stack.push(p.data);
+                p = p.next;
+            }
+            
+            // pop from stack one by one and compare with the list
+            p = this.head;
+            while (p != null) {
+                if (p.data != stack.pop()) return false;
+                p = p.next;
+            }
+            
+            return true;
+        }
+        
+        // 2.6 Palindrome: suppose we know the length of the list, how about useing recursive way?
+        public boolean isPalindrome_3()
+        {
+            
+            
+        }
         
         // check if two lists are the same
         public boolean equalList(Linked_list list)
@@ -423,6 +456,7 @@ class Rextester
             
             Node p1 = head, p2 = list.head;
             while (p1 != null) {
+                
                 if (p1.data != p2.data) return false;
                 
                 p1 = p1.next;
@@ -624,7 +658,7 @@ class Rextester
         list2.printList();
         System.out.println("list1 and list2 are equal: " + list1.equalList(list2));
         
-        System.out.println("list1 is palindrome: " + list1.isPalindrome_1());
-        System.out.println("list2 is palindrome: " + list2.isPalindrome_1());
+        System.out.println("list1 is palindrome: " + list1.isPalindrome_2());
+        System.out.println("list2 is palindrome: " + list2.isPalindrome_2());
     }
 }
