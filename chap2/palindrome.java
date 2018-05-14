@@ -442,11 +442,45 @@ class Rextester
             return true;
         }
         
-        // 2.6 Palindrome: suppose we know the length of the list, how about useing recursive way?
+        // 2.6 Palindrome: still an iterative version using a stack
+        // We don't need to compare the whole list with a reversed version of itself
+        // It is enough to just compare the reversed version of the first half with the second half
+        // But need to take care of the middle node in the case of odd number of nodes
+        // Assume that we don't know the number of nodes
         public boolean isPalindrome_3()
         {
+            if (this.head == null) return false;
             
+            Stack<Integer> stack = new Stack<Integer>();
+            Node slow = this.head, fast = this.head;
             
+            // fast will move twice as fast as slow, so when fast reaches the end of the list, slow should be in the middle
+            // at the same time, push the first half into a stack
+            while (slow != null && fast != null && fast.next != null) {
+                stack.push(slow.data);
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+
+            // handle the case when there is odd number of nodes in the list
+            if (fast != null) slow = slow.next;
+            
+            // Now the first hald is in the stack, we can then compare it with the second half
+            while (slow != null) {
+                int top = stack.pop().intValue();
+                    
+                if (slow.data != top) return false;
+                slow = slow.next;
+            }
+
+            return true;
+        }
+        
+        // 2.6 Palindrome: suppose we know the length of the list, how about useing recursive way?
+        public boolean isPalindrome_4()
+        {
+            
+            return true;
         }
         
         // check if two lists are the same
@@ -648,7 +682,7 @@ class Rextester
         System.out.println("Test 2.6: palindrom list");
         Linked_list list1 = new Linked_list();
         Linked_list list2 = new Linked_list();
-        int[] b1 = {2, 4, 5, 5, 4, 2};
+        int[] b1 = {1, 2, 1};
         int[] b2 = {1, 2, 3, 4};
         list1.buildList(b1);
         list2.buildList(b2);
@@ -658,7 +692,7 @@ class Rextester
         list2.printList();
         System.out.println("list1 and list2 are equal: " + list1.equalList(list2));
         
-        System.out.println("list1 is palindrome: " + list1.isPalindrome_2());
-        System.out.println("list2 is palindrome: " + list2.isPalindrome_2());
+        System.out.println("list1 is palindrome: " + list1.isPalindrome_3());
+        System.out.println("list2 is palindrome: " + list2.isPalindrome_3());
     }
 }
