@@ -398,18 +398,24 @@ class Rextester
         // 2.6 Palindrome: Implement a function to check if a linked list is a palindrome
         public boolean isPalindrome()
         {
-            //Linked_list revList = reverseLink();
             Linked_list revList = this.copyLink();
-            revList.printList();
-            System.out.println("revList.getCount() = " + revList.getCount());
             
             revList.reverseLinkInPlace();
-            revList.printList();
-            System.out.println("revList.getCount() = " + revList.getCount());
-                        
+                       
             return this.equalList(revList);
         }
 
+        // 2.6 Palindrome: another version which uses reverseLink() instead of reverseLinkInPlace()
+        public boolean isPalindrome_1()
+        {
+            Linked_list revList = this.reverseLink();
+            System.out.println("current list's count = " + this.getCount());
+            System.out.println("revList's count = " + revList.getCount());
+            
+            return this.equalList(revList);
+        }
+        
+        
         // check if two lists are the same
         public boolean equalList(Linked_list list)
         {
@@ -466,7 +472,18 @@ class Rextester
         public Linked_list reverseLink()
         {
             Linked_list revList = new Linked_list();
+            if (this.head == null) return revList;
             
+            Node p1 = this.head, p2 = null;
+            while (p1 != null) {
+                Node n = new Node(p1.data);
+                n.next = p2;
+                p1 = p1.next;
+                p2 = n;
+                revList.nodeCount++;
+            }
+                
+            revList.head = p2;
             return revList;
         }
         
@@ -597,8 +614,8 @@ class Rextester
         System.out.println("Test 2.6: palindrom list");
         Linked_list list1 = new Linked_list();
         Linked_list list2 = new Linked_list();
-        int[] b1 = {4, 5, 5, 4};
-        int[] b2 = {1, 2, 3};
+        int[] b1 = {2, 4, 5, 5, 4, 2};
+        int[] b2 = {1, 2, 3, 4};
         list1.buildList(b1);
         list2.buildList(b2);
         System.out.println("list1 is: ");
@@ -607,7 +624,7 @@ class Rextester
         list2.printList();
         System.out.println("list1 and list2 are equal: " + list1.equalList(list2));
         
-        System.out.println("list1 is palindrome: " + list1.isPalindrome());
-        System.out.println("list2 is palindrome: " + list2.isPalindrome());
+        System.out.println("list1 is palindrome: " + list1.isPalindrome_1());
+        System.out.println("list2 is palindrome: " + list2.isPalindrome_1());
     }
 }
