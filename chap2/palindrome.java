@@ -476,11 +476,50 @@ class Rextester
             return true;
         }
         
-        // 2.6 Palindrome: suppose we know the length of the list, how about useing recursive way?
+        // 2.6 Palindrome: recursive version
+        // Assume we know the length of the list
         public boolean isPalindrome_4()
         {
+            int length = this.getCount();
+            System.out.println("isPalindrome_4(): length = " + length);
+            Node p = this.head;
             
-            return true;
+            PalindromeResult res = isPalindromeHelper(p, length);
+            
+            return res.isPal;
+        }
+        
+        // A wrapper class to help isPalindrom() recursive version
+        class PalindromeResult
+        {
+            public boolean isPal;
+            public Node backNode;
+        }
+            
+        // The real recursive function
+        PalindromeResult isPalindromeHelper(Node frontNode, int length)
+        {
+            if (length == 0 || length == 1) {
+                PalindromeResult res = new PalindromeResult();
+                res.isPal = true;
+                res.backNode = (length == 0) ? frontNode : frontNode.next;
+                return res;
+            }
+            
+            PalindromeResult res = isPalindromeHelper(frontNode.next, length - 2);
+            
+            if (res.isPal == false) return res;
+            
+            // compare according frontNode and backNode
+            if (frontNode.data == res.backNode.data) {
+                res.isPal = true;
+                res.backNode = res.backNode.next;
+            } else {
+                res.isPal = false;
+                // res.backNode doesn't matter any more
+            }
+            
+            return res;
         }
         
         // check if two lists are the same
@@ -682,7 +721,7 @@ class Rextester
         System.out.println("Test 2.6: palindrom list");
         Linked_list list1 = new Linked_list();
         Linked_list list2 = new Linked_list();
-        int[] b1 = {1, 2, 1};
+        int[] b1 = {1, 2, 2, 1, 0};
         int[] b2 = {1, 2, 3, 4};
         list1.buildList(b1);
         list2.buildList(b2);
@@ -692,7 +731,7 @@ class Rextester
         list2.printList();
         System.out.println("list1 and list2 are equal: " + list1.equalList(list2));
         
-        System.out.println("list1 is palindrome: " + list1.isPalindrome_3());
-        System.out.println("list2 is palindrome: " + list2.isPalindrome_3());
+        System.out.println("list1 is palindrome: " + list1.isPalindrome_4());
+        System.out.println("list2 is palindrome: " + list2.isPalindrome_4());
     }
 }
