@@ -58,6 +58,27 @@ class Rextester
             temp.next = new_node;
             nodeCount++;
         }
+
+        // Append an existing node at the end of the list
+        public void append(Node n)
+        {
+            if (n == null) return;
+            
+            if (this.head == null) {
+                this.head = n;
+                this.nodeCount++;
+                return;
+            }
+            
+            Node p = this.head, pre = this.head;
+            // move p to the last node of the list
+            while (p.next != null) {
+                
+                
+            }
+            
+            
+        }
         
         // Insert a new Node after the given Node
         // Assume prev_node is either null or a valid Node in the list
@@ -522,6 +543,30 @@ class Rextester
             return res;
         }
         
+        // 2.7 Intersection: given two (singly) linked lists, determine if the lists intersect.
+        // Return the intersecting node. Node that the intersection is defined on reference, not value.
+        // use a hashset (hashtable)
+        public Node intersectList(Linked_list list)
+        {
+            HashSet<Node> hs = new HashSet<Node>();
+            Node p1 = this.head;
+            Node p2 = list.head;
+            
+            // go through one list and add all its nodes into a HashSet
+            while (p1 != null) {
+                hs.add(p1);
+                p1 = p1.next;
+            }
+
+            // go through another list and find out the first intersecting node if any
+            while (p2 != null) {
+                if (hs.contains(p2)) return p2;
+                p2 = p2.next;
+            }
+            
+            return null;  // no intersecting node is found, these two lists do not intersect.
+        }
+        
         // check if two lists are the same
         public boolean equalList(Linked_list list)
         {
@@ -717,6 +762,7 @@ class Rextester
         */
         
         // 2.6 Palindrome: Implement a function to check if a linked list is a palindrome
+        /*
         System.out.println();
         System.out.println("Test 2.6: palindrom list");
         Linked_list list1 = new Linked_list();
@@ -733,5 +779,27 @@ class Rextester
         
         System.out.println("list1 is palindrome: " + list1.isPalindrome_4());
         System.out.println("list2 is palindrome: " + list2.isPalindrome_4());
+        */
+        
+        // 2.7 Intersection: given two (singly) linked lists, determine if the lists intersect.
+        // Return the intersecting node. Node that the intersection is defined on reference, not value.
+        System.out.println();
+        System.out.println("Test 2.7: Intersection");
+        Linked_list list1 = new Linked_list();
+        Linked_list list2 = new Linked_list();
+        Linked_list list3 = new Linked_list();
+        int[] b1 = {1, 2, 2, 1, 0};
+        int[] b2 = {1, 2, 3, 4};
+        int[] b3 = {7, 8, 9};
+        list1.buildList(b1);
+        list2.buildList(b2);
+        list3.buildList(b3);
+        
+        System.out.println("list1 is: ");
+        list1.printList();
+        System.out.println("list2 is: ");
+        list2.printList();
+
+        System.out.println("The intersecting node between list1 and list2 is: " + list1.intersectList(list2));
     }
 }
