@@ -70,14 +70,14 @@ class Rextester
                 return;
             }
             
-            Node p = this.head, pre = this.head;
+            Node p = this.head;
             // move p to the last node of the list
             while (p.next != null) {
-                
-                
+                p = p.next;
             }
             
-            
+            p.next = n;
+            this.nodeCount++;
         }
         
         // Insert a new Node after the given Node
@@ -795,11 +795,15 @@ class Rextester
         list2.buildList(b2);
         list3.buildList(b3);
         
+        list1.append(list3.head);
+        list2.append(list3.head);
+        
         System.out.println("list1 is: ");
         list1.printList();
         System.out.println("list2 is: ");
         list2.printList();
 
-        System.out.println("The intersecting node between list1 and list2 is: " + list1.intersectList(list2));
+        Linked_list.Node p = list1.intersectList(list2);
+        System.out.println("The intersecting node between list1 and list2 is: " + p + " which has value = " + p.data);
     }
 }
