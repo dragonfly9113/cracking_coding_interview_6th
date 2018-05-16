@@ -567,6 +567,32 @@ class Rextester
             return null;  // no intersecting node is found, these two lists do not intersect.
         }
         
+        // 2.7 Intersection: don't use a hashset.
+        // Assume we know the lengths of the lists
+        public Node intersectList_1(Linked_list list)
+        {
+            if (this.head == null || list.head == null) return null;
+            
+            int len1 = this.getCount(), len2 = list.getCount();
+            int diff = Math.abs(len1 - len2);
+            
+            Node longList = (len1 >= len2) ? this.head : list.head;
+            Node shortList = (len1 >= len2) ? list.head : this.head;
+            
+            // first move longList to have the same nodes left as that of shortList
+            for (int i = 0; i < diff; i++)
+                longList = longList.next;
+            
+            // now move longList and shortList together and compare each node along the way
+            while (longList != null && shortList != null) {
+                if (longList == shortList) return longList;
+                longList = longList.next;
+                shortList = shortList.next;
+            }
+
+            return null;  // no intersect is found
+        }
+        
         // check if two lists are the same
         public boolean equalList(Linked_list list)
         {
@@ -789,8 +815,8 @@ class Rextester
         Linked_list list2 = new Linked_list();
         Linked_list list3 = new Linked_list();
         int[] b1 = {1, 2, 2, 1, 0};
-        int[] b2 = {1, 2, 3, 4};
-        int[] b3 = {7, 8, 9};
+        int[] b2 = {2, 3, 4};
+        int[] b3 = {10, 8, 9};
         list1.buildList(b1);
         list2.buildList(b2);
         list3.buildList(b3);
@@ -803,7 +829,8 @@ class Rextester
         System.out.println("list2 is: ");
         list2.printList();
 
-        Linked_list.Node p = list1.intersectList(list2);
-        System.out.println("The intersecting node between list1 and list2 is: " + p + " which has value = " + p.data);
+        //Linked_list.Node p = list1.intersectList(list2);
+        Linked_list.Node p = list1.intersectList_1(list2);
+        System.out.println("The intersecting node between list1 and list2 is: " + p + " which has value = " + (p == null ? -1 : p.data));
     }
 }
