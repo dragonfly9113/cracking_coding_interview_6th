@@ -604,19 +604,61 @@ class Rextester
             // Assume there are k non-loop nodes before the loop and there are l nodes in the loop
             // find the first collision point which will be l - K nodes from the loop begining.
             // K = k % l
-            while (slow != null && fast != null && fast.next != null) {
-                if (slow == fast) break;  // collision point found
+            while (fast != null && fast.next != null) {
                 slow = slow.next;
                 fast = fast.next.next;
+                if (slow == fast) break;  // collision point found
             }
             
             // not a loop, just return null
-            if (slow == null || fast == null || fast.next == null)
+            if (fast == null || fast.next == null)
                 return null;
             
-            // Now the first collision point is found, reset slow and fast to find the loop beginning node
+            // Now the first collision point is found, use another two pointers to find the loop beginning node
+            Node p1 = this.head;
+            Node p2 = fast;   // p2 points to the collision point just found
             
+            // move p1 and p2 at the same pace. after k steps, both p1 and p2 will be at the loop begining node.
+            while (p1 != p2 ) {
+                p1 = p1.next;
+                p2 = p2.next;
+            }
+
+            // if p1 and p2 meets, that node is the loop beginning node
+            return p1;
+        }
+        
+        // loopConstructor: construct a linked list which might have a loop
+        // k: number of non-loop nodes
+        // l: number of loop nodes
+        // lenght of the list is thus k + l
+        // Example: k = 3, l = 5
+        // 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 3
+        public static Linked_list loopConstructor(int k, int l)
+        {
+            int len = k + l;
+            Linked_list list = new Linked_list();
             
+            if (len == 0) return list;
+            
+            // build a list of size: len
+            Node dummy_head = new Node();
+            Node p = dummy_head, b = null;   // b is used to save the loop beginning node
+            for (int i = 0; i < len; i++) {
+                Node n = new Node(i);
+                p.next = n;
+                p = p.next;
+                
+                // save the node which is the beginning of the loop
+                if (i == k) b = p;
+            }
+            
+            // make a loop
+            p.next = b;
+            
+            list.head = dummy_head.next;
+            
+            return list;
         }
         
         // check if two lists are the same
@@ -734,6 +776,7 @@ class Rextester
     
     public static void main(String args[])
     {
+        /*
         Linked_list llist = new Linked_list();
         int[] a = {1, 2, 3, 4, 5, 6};
         llist.buildList(a);
@@ -753,6 +796,7 @@ class Rextester
         llist.deleteNode(6);
         llist.printList();
         System.out.println("getCount() = " + llist.getCount());
+        */
         
         /* 2.2
         int k = 5;
@@ -855,13 +899,19 @@ class Rextester
         list1.printList();
         System.out.println("list2 is: ");
         list2.printList();
-
         //Linked_list.Node p = list1.intersectList(list2);
         Linked_list.Node p = list1.intersectList_1(list2);
         System.out.println("The intersecting node between list1 and list2 is: " + p + " which has value = " + (p == null ? -1 : p.data));
         */
         
         // 2.8 Loop detector: returns the beginning node of a loop
+        int k = 95, l = 5;
+        Linked_list list = Linked_list.loopConstructor(k, l);
+        
+        //list.printList();
+        
+        Linked_list.Node p = list.loopDetector();
+        System.out.println("The beginning node of loop in list is: " + p + " which has value = " + (p == null ? -1 : p.data));
         
     }
 }
