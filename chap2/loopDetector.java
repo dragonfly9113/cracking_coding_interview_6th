@@ -596,6 +596,25 @@ class Rextester
         // 2.8 Loop detector: find a loop and returns the loop-beginning node
         public Node loopDetector()
         {
+            if (this.head == null) return null;
+            
+            Node slow = this.head;
+            Node fast = this.head;
+            
+            // Assume there are k non-loop nodes before the loop and there are l nodes in the loop
+            // find the first collision point which will be l - K nodes from the loop begining.
+            // K = k % l
+            while (slow != null && fast != null && fast.next != null) {
+                if (slow == fast) break;  // collision point found
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+            
+            // not a loop, just return null
+            if (slow == null || fast == null || fast.next == null)
+                return null;
+            
+            // Now the first collision point is found, reset slow and fast to find the loop beginning node
             
             
         }
