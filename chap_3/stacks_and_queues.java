@@ -6,7 +6,7 @@ import java.lang.*;
 
 class Rextester
 {  
-    public class MyStack<T>
+    public static class MyStack<T>
     {
         private class StackNode<T>
         {
@@ -22,24 +22,68 @@ class Rextester
         
         // remove and return the top element of the stack
         public T pop() {
-            if (this.top == null) throw new EmptyStackException();
+            if (top == null) throw new EmptyStackException();
             
-            return this.top.data;
-            
+            T data = top.data;
+            top = top.next;
+            return data;
         }
         
-        public void push() {
+        // push a new element to the stack
+        public void push(T data) {
+            StackNode<T> node = new StackNode<T>(data);
             
-            
-            
+            node.next = top;
+            top = node;
         }
+        
+        // return (but not remove) the top element of the stack
+        public T peek() {
+            if (top == null) throw new EmptyStackException();
+            
+            return top.data;
+        }
+        
+        public boolean isEmpty() {
+            return (top == null);
+        }
+        
+        public void printStack() {
+            if (top == null) throw new EmptyStackException();
+            
+            StackNode<T> p = top;
+            while (p != null) {
+                System.out.print(p.data + " -> ");
+                p = p.next;
+            }
+            System.out.print("null");
+            System.out.println();
+        }
+            
     }
-    
-    
-    
     
     public static void main(String args[])
     {
-        System.out.println("Hello, World!");
+        // 3.0: implementation of a stack
+        MyStack<Integer> st = new MyStack<Integer>();
+
+        st.push(3);
+        st.push(2);
+        st.push(1);
+        st.printStack();
+        
+        int res = st.pop();
+        System.out.println("pop out data: " + res);
+        st.printStack();
+        
+        res = st.pop();
+        System.out.println("pop out data: " + res);
+        st.printStack();
+
+        res = st.pop();
+        System.out.println("peek of top data: " + res);
+        //st.printStack();
+        
+        System.out.println("The stack is empty: " + st.isEmpty());
     }
 }
