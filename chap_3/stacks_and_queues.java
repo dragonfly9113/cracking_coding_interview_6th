@@ -45,7 +45,7 @@ class Rextester
         }
         
         public boolean isEmpty() {
-            return (top == null);
+            return top == null;
         }
         
         public void printStack() {
@@ -62,9 +62,76 @@ class Rextester
             
     }
     
+    // Implement a queue using singlely-linked list
+    // Add and remove an item must happen at the opposite end of the list.
+    // Should we use the head (of the list) to be first item or last item?
+    // This choice is important because it will decide the effectness of remove() method!
+    // Answer: it is better to choose the head as first item (oldest item). this choise will not affect add() but will make remove() much easier!
+    public static class MyQueue<T> 
+    {
+        private class QueueNode<T>
+        {
+            private T data;
+            private QueueNode<T> next;
+
+            public QueueNode(T data) {
+                this.data = data;
+            }
+        }
+
+        private QueueNode<T> first;
+        private QueueNode<T> last;
+        
+        // add an element to the queue
+        public void add(T data) {
+            QueueNode<T> t = new QueueNode<T>(data);
+            
+            if (last != null) last.next = t;
+            last = t;
+            
+            if (first == null) first = last;
+        }
+            
+        // remove and return the first element of the queue
+        public T remove() {
+            if (first == null) throw new NoSuchElementException();
+            T data = first.data;
+
+            first = first.next;
+            if (first == null) last = first;
+            
+            return data;
+        }
+        
+        // return the first element of the queue
+        public T peek() {
+            if (first == null) throw new NoSuchElementException();
+            
+            return first.data;
+        }
+        
+        // check if a queue is empty
+        public boolean isEmpty() {
+            return first == null;
+        }
+        
+        public void printQueue() {
+            if (first == null) throw new NoSuchElementException();
+            
+            QueueNode<T> p = first;
+            while (p != null) {
+                System.out.print(p.data + " -> ");
+                p = p.next;
+            }
+            System.out.print("null");
+            System.out.println();
+        }
+    }
+        
     public static void main(String args[])
     {
-        // 3.0: implementation of a stack
+        // 3.0: test MyStack
+        /*
         MyStack<Integer> st = new MyStack<Integer>();
 
         st.push(3);
@@ -85,5 +152,28 @@ class Rextester
         //st.printStack();
         
         System.out.println("The stack is empty: " + st.isEmpty());
+        */
+        
+        // 3.0: test MyQueue
+        MyQueue<Integer> mq = new MyQueue<Integer>();
+        
+        mq.add(1);
+        mq.add(2);
+        mq.add(3);
+        mq.printQueue();
+        
+        int res = mq.remove();
+        System.out.println("removed the first element: " + res);
+        mq.printQueue();
+
+        res = mq.remove();
+        System.out.println("removed the first element: " + res);
+        mq.printQueue();
+
+        res = mq.peek();
+        System.out.println("peek the first element: " + res);
+        mq.printQueue();
+        
+        System.out.println("The queue is empty: " + mq.isEmpty());
     }
 }
