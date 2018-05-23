@@ -128,12 +128,45 @@ class Rextester
         }
     }
         
+    // 3.1: Use a single array to implement three stacks
+    // Since Java doesn't support array of generic type, here we assume the values are of int type.
+    public static class MyThreeStacks
+    {
+        private int[] stackArr = new int[300];
+        
+        // array p is used to store current index for stack 0, 1 and 2
+        private int[] p = new int[]{-3, -2, -1};
+        
+        public void push(int data, int i) {
+            // move the index of stack i to the next slot
+            p[i] += 3;
+            stackArr[p[i]] = data;
+        }
+        
+        public int pop(int i) {
+            if (p[i] < 0) throw new EmptyStackException();
+            
+            int data = stackArr[p[i]];
+            p[i] -= 3;
+            return data;
+        }
+
+        public int peek(int i) {
+            if (p[i] < 0) throw new EmptyStackException();
+            
+            return stackArr[p[i]];
+        }
+        
+        public boolean isEmpty(int i) {
+            return p[i] < 0;
+        }
+    }
+    
     public static void main(String args[])
     {
         // 3.0: test MyStack
         /*
         MyStack<Integer> st = new MyStack<Integer>();
-
         st.push(3);
         st.push(2);
         st.push(1);
@@ -146,7 +179,6 @@ class Rextester
         res = st.pop();
         System.out.println("pop out data: " + res);
         st.printStack();
-
         res = st.pop();
         System.out.println("peek of top data: " + res);
         //st.printStack();
@@ -155,6 +187,7 @@ class Rextester
         */
         
         // 3.0: test MyQueue
+        /*
         MyQueue<Integer> mq = new MyQueue<Integer>();
         
         mq.add(1);
@@ -175,5 +208,15 @@ class Rextester
         mq.printQueue();
         
         System.out.println("The queue is empty: " + mq.isEmpty());
+        */
+        
+        // 3.1: Three in one: implement three stacks using an array
+        MyThreeStacks st = new MyThreeStacks();
+        
+        st.push(1, 0);
+        st.push(2, 0);
+        
+        
+        
     }
 }
