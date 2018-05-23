@@ -160,6 +160,17 @@ class Rextester
         public boolean isEmpty(int i) {
             return p[i] < 0;
         }
+        
+        public void printStack(int i) {
+            if (p[i] < 0) throw new EmptyStackException();
+            
+            while (p[i] >= 0) {
+                System.out.print(stackArr[p[i]] + " -> ");
+                p[i] -= 3;
+            }
+            System.out.print("null");
+            System.out.println();
+        }
     }
     
     public static void main(String args[])
@@ -215,8 +226,9 @@ class Rextester
         
         st.push(1, 0);
         st.push(2, 0);
-        
-        
+        st.printStack(0);
+        st.pop(0);
+        st.printStack(0);
         
     }
 }
