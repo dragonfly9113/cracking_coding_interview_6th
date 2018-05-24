@@ -188,26 +188,46 @@ class Rextester
     public static class FixedMultiStack
     {
         private int numOfStacks = 3;
-        private int arrayCapacity;
+        private int stackCapacity;
         private int[] values;
         private int[] sizes;
         
-        public FixedMultiStack(int capacity) {
-            arrayCapacity = capacity;
+        public FixedMultiStack(int stCapacity) {
+            stackCapacity = stCapacity;
+            int arrayCapacity = numOfStacks * stackCapacity;
             values = new int[arrayCapacity];
             sizes = new int[numOfStacks];
         }
         
         public void push(int stackIndex, int data) {
-            if (isFull(stackIndex)) throw new FullStackException();
+            if (isFull(stackIndex)) throw new EmptyStackException();
             
-            // increment this stack's size by one
-            sizes[stackIndex]++;
+            // compute the offset for this stack
+            int offset = stackIndex * stackCapacity;
+            System.out.println("offset = " + offset);
             
             // save data into the according slot
-            values[sizes[stackIndex]] = data;
+            values[offset + sizes[stackIndex]] = data;
+
+            // increment this stack's size by one
+            sizes[stackIndex]++;
         }
         
+        
+        public int pop(int stackIndex) {
+            if (isEmpty(stackIndex)) throw new EmptyStackException();
+            
+            return 0;
+        }
+        
+        
+        public boolean isFull(int stackIndex) {
+            return false;
+        }
+
+        public boolean isEmpty(int stackIndex) {
+            return false;
+        }
         
         
     }
@@ -248,11 +268,9 @@ class Rextester
         int res = mq.remove();
         System.out.println("removed the first element: " + res);
         mq.printQueue();
-
         res = mq.remove();
         System.out.println("removed the first element: " + res);
         mq.printQueue();
-
         res = mq.peek();
         System.out.println("peek the first element: " + res);
         mq.printQueue();
