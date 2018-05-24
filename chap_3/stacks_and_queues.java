@@ -164,9 +164,11 @@ class Rextester
         public void printStack(int i) {
             if (p[i] < 0) throw new EmptyStackException();
             
-            while (p[i] >= 0) {
-                System.out.print(stackArr[p[i]] + " -> ");
-                p[i] -= 3;
+            int idx = p[i];
+            System.out.println("The stack #" + i + " is:");
+            while (idx >= 0) {
+                System.out.print(stackArr[idx] + " -> ");
+                idx -= 3;
             }
             System.out.print("null");
             System.out.println();
@@ -229,6 +231,17 @@ class Rextester
         st.printStack(0);
         st.pop(0);
         st.printStack(0);
+        System.out.println("The top of stack #0 is:" + st.peek(0));
+
+        st.push(4, 1);
+        st.push(5, 1);
+        st.push(6, 1);
+        st.printStack(1);
+        System.out.println("The top of stack #1 is:" + st.peek(1));
         
+        st.push(8, 2);
+        st.push(9, 2);
+        st.printStack(2);
+        System.out.println("The top of stack #2 is:" + st.peek(2));
     }
 }
