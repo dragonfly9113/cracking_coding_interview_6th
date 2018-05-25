@@ -194,42 +194,49 @@ class Rextester
         
         public FixedMultiStack(int stCapacity) {
             stackCapacity = stCapacity;
-            int arrayCapacity = numOfStacks * stackCapacity;
-            values = new int[arrayCapacity];
+            values = new int[numOfStacks * stackCapacity];
             sizes = new int[numOfStacks];
         }
         
-        public void push(int stackIndex, int data) {
-            if (isFull(stackIndex)) throw new EmptyStackException();
-            
-            // compute the offset for this stack
-            int offset = stackIndex * stackCapacity;
-            System.out.println("offset = " + offset);
-            
-            // save data into the according slot
-            values[offset + sizes[stackIndex]] = data;
+        public void push(int stackIndex, int data) throws FullStackException {
+            if (isFull(stackIndex)) throw new FullStackException("Stack is full!");
 
+            // save data into the according slot
+            int offset = stackIndex * stackCapacity;
+            values[offset + sizes[stackIndex]] = data;
+            
             // increment this stack's size by one
             sizes[stackIndex]++;
         }
         
-        
-        public int pop(int stackIndex) {
-            if (isEmpty(stackIndex)) throw new EmptyStackException();
+        public void printStack(int stackIndex) {
+            //if (isEmpty(stackIndex)) throw new EmptyStackException();
             
-            return 0;
+            int offset = stackIndex * stackCapacity;
+            System.out.print("bottom -- ");
+            for (int i = 0; i < sizes[stackIndex]; i++) {
+                System.out.print(values[offset + i] + " -- ");
+            }
+            System.out.println("top");
         }
         
         
         public boolean isFull(int stackIndex) {
-            return false;
+            return sizes[stackIndex] >= stackCapacity;
         }
 
         public boolean isEmpty(int stackIndex) {
-            return false;
+            return sizes[stackIndex] <= 0;
         }
         
-        
+    }
+     
+    @SuppressWarnings("serial")
+    public static class FullStackException extends Exception
+    {
+        public FullStackException(String s) {
+            super(s);
+        }
     }
         
     public static void main(String args[])
@@ -279,6 +286,7 @@ class Rextester
         */
         
         // 3.1: Three in one: implement three stacks using an array
+        /*
         MyThreeStacks st = new MyThreeStacks();
         
         st.push(1, 0);
@@ -298,5 +306,46 @@ class Rextester
         st.push(9, 2);
         st.printStack(2);
         System.out.println("The top of stack #2 is:" + st.peek(2));
+        */
+        
+        // 3.1: test FixedMultiStack class
+        FixedMultiStack fms = new FixedMultiStack(100);
+        
+        try {
+            fms.push(0, 1);
+            fms.push(0, 2);
+            fms.push(0, 3);
+        }
+        catch (FullStackException ex) {
+            System.out.println(ex.getMessage());
+        }
+        fms.printStack(0);
+        fms.printStack(1);
+        fms.printStack(2);
+
+        try {
+            fms.push(1, 11);
+            fms.push(1, 12);
+            fms.push(1, 13);
+        }
+        catch (FullStackException ex) {
+            System.out.println(ex.getMessage());
+        }
+        fms.printStack(0);
+        fms.printStack(1);
+        fms.printStack(2);
+
+        try {
+            fms.push(2, 111);
+            fms.push(2, 222);
+            fms.push(2, 333);
+        }
+        catch (FullStackException ex) {
+            System.out.println(ex.getMessage());
+        }
+        fms.printStack(0);
+        fms.printStack(1);
+        fms.printStack(2);
+        
     }
 }
