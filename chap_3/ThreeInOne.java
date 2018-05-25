@@ -208,6 +208,25 @@ class Rextester
             // increment this stack's size by one
             sizes[stackIndex]++;
         }
+
+        public int pop(int stackIndex) {
+            if (isEmpty(stackIndex)) throw new EmptyStackException();
+            
+            // decrement this stack's size by one
+            sizes[stackIndex]--;
+            
+            // return the top item
+            int offset = stackIndex * stackCapacity;
+            return values[offset + sizes[stackIndex]];
+        }
+        
+        public int peek(int stackIndex) {
+            if (isEmpty(stackIndex)) throw new EmptyStackException();
+            
+            // just return the top item
+            int offset = stackIndex * stackCapacity;
+            return values[offset + sizes[stackIndex] - 1];
+        }
         
         public void printStack(int stackIndex) {
             //if (isEmpty(stackIndex)) throw new EmptyStackException();
@@ -219,7 +238,6 @@ class Rextester
             }
             System.out.println("top");
         }
-        
         
         public boolean isFull(int stackIndex) {
             return sizes[stackIndex] >= stackCapacity;
@@ -347,5 +365,13 @@ class Rextester
         fms.printStack(1);
         fms.printStack(2);
         
+        System.out.println("The poped out data is: " + fms.pop(2));
+        fms.printStack(0);
+        fms.printStack(1);
+        fms.printStack(2);
+        
+        System.out.println("Peek stack 1: " + fms.peek(0));
+        System.out.println("Peek stack 2: " + fms.peek(1));
+        System.out.println("Peek stack 3: " + fms.peek(2));
     }
 }
