@@ -246,8 +246,23 @@ class Rextester
         public boolean isEmpty(int stackIndex) {
             return sizes[stackIndex] <= 0;
         }
+    }
+    
+    // 3.1: Use a looped array to implement multiple stacks in a more flexible way
+    // Initially multiple stacks have same capacity
+    // stack 1: [0, n/3)
+    // stack 2: [n/3, 2n/3)
+    // stack 3: [2n/3, n)
+    // when one stack grows out of its capcity, it can grow over its neighbor if the space is available.
+    // this way we can avoid some space is wasted on unpopulated stack
+    public static class MultiStack
+    {
+        
+        
+        
         
     }
+
      
     @SuppressWarnings("serial")
     public static class FullStackException extends Exception
@@ -327,6 +342,7 @@ class Rextester
         */
         
         // 3.1: test FixedMultiStack class
+        /*
         FixedMultiStack fms = new FixedMultiStack(100);
         
         try {
@@ -373,5 +389,9 @@ class Rextester
         System.out.println("Peek stack 1: " + fms.peek(0));
         System.out.println("Peek stack 2: " + fms.peek(1));
         System.out.println("Peek stack 3: " + fms.peek(2));
+        */
+        
+        // 3.1: test MultiStack class
+
     }
 }
