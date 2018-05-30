@@ -303,7 +303,7 @@ class Rextester
                 expand(stIndex);
             }
             
-            // if the target stack still has capacity, just push in new data
+            // if the target stack still has capacity (or has just been expanded with one more slot), we can now push in the new data
             values[stacks[stIndex].getTopIndex()] = data;
             // increment its size
             stacks[stIndex].size++;
@@ -342,7 +342,18 @@ class Rextester
         }
 
         public void shift(int stIndex) {
-            // to do
+            // move all data to the right for one slot
+            int i, topIndex = stacks[stIndex].getTopIndex();
+            for (i = 0; i < stacks[stIndex].size; i++) {
+                values[topIndex - i] = values[topIndex - i -1];
+            }
+            
+            // clear the first element, which has been moved
+            values[topIndex - i] = 0;
+            
+            // update its stackInfo; its size remains unchanged.
+            stacks[stIndex].start++;
+            stacks[stIndex].capacity--;
         }
         
         public void printAllStacks() {
@@ -497,21 +508,25 @@ class Rextester
         
         System.out.println("In ms, number of stacks = " + ms.numOfStacks);
 
-        ms.printAllStacks();
-        ms.printAllStackInfos();
+        //ms.printAllStacks();
+        //ms.printAllStackInfos();
         
         try {
             for (int i = 0; i < ms.stacks[0].capacity; i++) {
                 ms.push(0, i);
             }
 
-            for (int i = 0; i < ms.stacks[1].capacity; i++) {
+            for (int i = 0; i < 3; i++) {
                 ms.push(1, i);
             }
 
-            for (int i = 0; i < ms.stacks[2].capacity; i++) {
+            for (int i = 0; i < 3; i++) {
                 ms.push(2, i);
             }
+            
+            ms.push(0, 100);
+            ms.push(0, 101);
+            ms.push(0, 102);
         }
         catch (FullStackException ex) {
             System.out.println(ex.getMessage());
