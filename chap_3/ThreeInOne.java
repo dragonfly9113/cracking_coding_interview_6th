@@ -283,6 +283,10 @@ class Rextester
             public boolean isFull() {
                 return size == capacity;
             }
+            
+            public boolean isEmpty() {
+                return size == 0;
+            }
         }
         
         public MultiStack(int stackNum, int stackCap) {
@@ -311,13 +315,32 @@ class Rextester
             stacks[stIndex].size++;
         }
 
-        /*
-        private class stackInfo
-        {
-            private int start;
-            private int size;
-            private int capacity;
-        } */
+        public int pop(int stIndex) {
+            if (stacks[stIndex].isEmpty()) throw new EmptyStackException();
+            
+            // get the data at the top element
+            int topIdx = stacks[stIndex].getTopIndex() - 1;
+            topIdx = (topIdx < 0) ? totalCapacity + topIdx : topIdx;
+            int data = values[topIdx];
+            
+            // clear the top slot
+            values[topIdx] = 0;
+            // update its stackInfo
+            stacks[stIndex].size--;
+            
+            return data;
+        }
+        
+        public int peek(int stIndex) {
+            if (stacks[stIndex].isEmpty()) throw new EmptyStackException();
+            
+            // get the data at the top element
+            int topIdx = stacks[stIndex].getTopIndex() - 1;
+            topIdx = (topIdx < 0) ? totalCapacity + topIdx : topIdx;
+            int data = values[topIdx];
+            
+            return data;
+        }
         
         public boolean areAllStacksFull() {
             for (int i = 0; i < this.numOfStacks; i++) {
@@ -535,9 +558,16 @@ class Rextester
         catch (FullStackException ex) {
             System.out.println(ex.getMessage());
         }
-
+        
+        System.out.println("pop stack #1: " + ms.pop(1));
+        System.out.println("peek stack #1: " + ms.peek(1));
+        
+        System.out.println("pop stack #1: " + ms.pop(0));
+        System.out.println("pop stack #1: " + ms.pop(0));
+        System.out.println("pop stack #1: " + ms.pop(0));
+        //System.out.println("pop stack #1: " + ms.pop(0));
+        
         ms.printAllStacks();
         ms.printAllStackInfos();
-        
     }
 }
