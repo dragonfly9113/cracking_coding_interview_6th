@@ -258,7 +258,7 @@ class Rextester
     public static class MultiStack
     {
         private int numOfStacks;
-        private int defaultStackCap;
+        private int totalCapacity;
         private int[] values;
         private stackInfo[] stacks;
         
@@ -275,7 +275,9 @@ class Rextester
             }
             
             public int getTopIndex() {
-                return start + size;
+                int topIndex = start + size;
+                
+                return (topIndex < totalCapacity) ? topIndex : topIndex - totalCapacity;
             }
             
             public boolean isFull() {
@@ -285,8 +287,8 @@ class Rextester
         
         public MultiStack(int stackNum, int stackCap) {
             this.numOfStacks = stackNum;
-            this.defaultStackCap = stackCap;
-            this.values = new int[stackNum * stackCap];
+            this.totalCapacity = stackNum * stackCap;
+            this.values = new int[totalCapacity];
             this.stacks = new stackInfo[stackNum];
             
             for (int i = 0; i < stackNum; i++) {
@@ -345,11 +347,13 @@ class Rextester
             // move all data to the right for one slot
             int i, topIndex = stacks[stIndex].getTopIndex();
             for (i = 0; i < stacks[stIndex].size; i++) {
-                values[topIndex - i] = values[topIndex - i -1];
+                // need to consider the case of topIndex-i or topIndex-i-1 is less than 0 (wrapping around case)
+                int moveToIdx = topIndex - i;
+                int moveFromIdx = topIndex - i - 1;
+                moveToIdx = (moveToIdx < 0) ? totalCapacity + moveToIdx : moveToIdx;
+                moveFromIdx = (moveFromIdx < 0) ? totalCapacity + moveFromIdx : moveFromIdx; 
+                values[moveToIdx] = values[moveFromIdx];
             }
-            
-            // clear the first element, which has been moved
-            values[topIndex - i] = 0;
             
             // update its stackInfo; its size remains unchanged.
             stacks[stIndex].start++;
@@ -512,21 +516,21 @@ class Rextester
         //ms.printAllStackInfos();
         
         try {
-            for (int i = 0; i < ms.stacks[0].capacity; i++) {
+            for (int i = 0; i < 3; i++) {
                 ms.push(0, i);
             }
 
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < ms.stacks[1].capacity; i++) {
                 ms.push(1, i);
             }
 
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < ms.stacks[2].capacity; i++) {
                 ms.push(2, i);
             }
             
-            ms.push(0, 100);
-            ms.push(0, 101);
-            ms.push(0, 102);
+            ms.push(1, 100);
+            ms.push(1, 101);
+            ms.push(1, 102);
         }
         catch (FullStackException ex) {
             System.out.println(ex.getMessage());
