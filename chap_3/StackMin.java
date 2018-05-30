@@ -7,9 +7,9 @@ import java.lang.*;
 class Rextester
 {  
     // 3.2: Stack Min: add support to retrieve minimal element in O(1) time
-    public static class MyStack<T>
+    public static class MyStack<T extends Comparable<T>>
     {
-        private class StackNode<T>
+        private class StackNode<T extends Comparable<T>>
         {
             private T data;
             // min: the miminal value of the substack with this node as top (inclusive)
@@ -19,6 +19,10 @@ class Rextester
             public StackNode(T data) { 
                 this.data = data;
             }
+            
+            public void updateMin(T oldMin) {
+                minData = (data.compareTo(oldMin) < 0) ? data : oldMin;
+            }
         }
         
         private StackNode<T> top;
@@ -26,6 +30,9 @@ class Rextester
         // push a new element to the stack
         public void push(T data) {
             StackNode<T> node = new StackNode<T>(data);
+            // update the minimal element with this new node as top
+            T oldMin = (top == null) ? data : top.minData;
+            node.updateMin(oldMin);
             
             node.next = top;
             top = node;
@@ -49,7 +56,7 @@ class Rextester
         
         // return the min
         public T min() {
-            if (top == null) throw EmptyStackException();
+            if (top == null) throw new EmptyStackException();
             
             T minData = top.minData;
             return minData;
@@ -63,11 +70,12 @@ class Rextester
             if (top == null) throw new EmptyStackException();
             
             StackNode<T> p = top;
+            System.out.print("Top ->");
             while (p != null) {
                 System.out.print(p.data + " -> ");
                 p = p.next;
             }
-            System.out.print("null");
+            System.out.print("Bottom");
             System.out.println();
         }
             
@@ -546,7 +554,6 @@ class Rextester
         MultiStack ms = new MultiStack(stackNum, stackCap);
         
         System.out.println("In ms, number of stacks = " + ms.numOfStacks);
-
         //ms.printAllStacks();
         //ms.printAllStackInfos();
         
@@ -554,11 +561,9 @@ class Rextester
             for (int i = 0; i < 3; i++) {
                 ms.push(0, i);
             }
-
             for (int i = 0; i < ms.stacks[1].capacity; i++) {
                 ms.push(1, i);
             }
-
             for (int i = 0; i < ms.stacks[2].capacity; i++) {
                 ms.push(2, i);
             }
@@ -586,5 +591,24 @@ class Rextester
         // 3.2: test Stack Min
         System.out.println("test Stack Min");
         
+        MyStack<Integer> st = new MyStack<Integer>();
+        st.push(3);
+        st.push(2);
+        st.push(1);
+        st.printStack();
+        
+        int res = st.pop();
+        System.out.println("pop out data: " + res);
+        st.printStack();
+        
+        res = st.pop();
+        System.out.println("pop out data: " + res);
+        st.printStack();
+        res = st.pop();
+        System.out.println("peek of top data: " + res);
+        //st.printStack();
+        
+        System.out.println("The stack is empty: " + st.isEmpty());
+       
     }
 }
