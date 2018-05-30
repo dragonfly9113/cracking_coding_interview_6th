@@ -257,9 +257,109 @@ class Rextester
     // this way we can avoid some space is wasted on unpopulated stack
     public static class MultiStack
     {
+        private int numOfStacks;
+        private int defaultStackCap;
+        private int[] values;
+        private stackInfo[] stacks;
         
+        private class stackInfo
+        {
+            private int start;
+            private int size;
+            private int capacity;
+            
+            public stackInfo(int st, int sz, int cap) {
+                this.start = st;
+                this.size = sz;
+                this.capacity = cap;
+            }
+            
+            public int getTopIndex() {
+                return start + size;
+            }
+            
+            public boolean isFull() {
+                return size == capacity;
+            }
+        }
         
+        public MultiStack(int stackNum, int stackCap) {
+            this.numOfStacks = stackNum;
+            this.defaultStackCap = stackCap;
+            this.values = new int[stackNum * stackCap];
+            this.stacks = new stackInfo[stackNum];
+            
+            for (int i = 0; i < stackNum; i++) {
+                this.stacks[i] = new stackInfo(i * stackCap, 0, stackCap);
+            }
+        }
+
+        public void push(int stIndex, int data) throws FullStackException {
+            // if all stacks are at each one's capacity, throw exception
+            if (areAllStacksFull()) throw new FullStackException("All stacks are full!");
+            
+            // if the target stack is full, need to expand into neighor stack
+            if (stacks[stIndex].isFull()) {
+                expand(stIndex);
+            }
+            
+            // if the target stack still has capacity, just push in new data
+            values[stacks[stIndex].getTopIndex()] = data;
+            // increment its size
+            stacks[stIndex].size++;
+        }
+
+        /*
+        private class stackInfo
+        {
+            private int start;
+            private int size;
+            private int capacity;
+        } */
         
+        public boolean areAllStacksFull() {
+            for (int i = 0; i < this.numOfStacks; i++) {
+                if (this.stacks[i].size < this.stacks[i].capacity)
+                    return false;
+            }
+            return true;
+        }
+        
+        public void expand(int stIndex) {
+            // the next stack to expand into; to the last stack, the next one is the first stack (looped back)
+            int nextStack = (stIndex + 1) % numOfStacks;
+            
+            // if the next stack is also full, need to expand into the next to the next one, etc.
+            if (stacks[nextStack].isFull())
+                expand(nextStack);
+            
+            // the next stack still has capacity, shift all its contents to the right for one slot to make room for the stack to the left of it
+            shift(nextStack);
+            
+            // after shifting the next stack, update the capacity of this stack (stIndex) so that new data can be pushed into it
+            // its start and size remain unchanged
+            stacks[stIndex].capacity++;
+        }
+
+        public void shift(int stIndex) {
+            // to do
+        }
+        
+        public void printAllStacks() {
+            System.out.println("The values of all stacks are:");
+            for (int i = 0; i < values.length; i++) {
+                System.out.print(values[i] + " ");
+            }
+            System.out.println();
+        }
+
+        public void printAllStackInfos() {
+            System.out.println("The stackInfo of all stacks are:");
+            for (int i = 0; i < stacks.length; i++) {
+                System.out.println("stacks[" + i + "].start... = " + stacks[i].start + " " + stacks[i].size + " " + stacks[i].capacity);
+            }
+            System.out.println();        
+        }
         
     }
 
@@ -328,7 +428,6 @@ class Rextester
         st.pop(0);
         st.printStack(0);
         System.out.println("The top of stack #0 is:" + st.peek(0));
-
         st.push(4, 1);
         st.push(5, 1);
         st.push(6, 1);
@@ -356,7 +455,6 @@ class Rextester
         fms.printStack(0);
         fms.printStack(1);
         fms.printStack(2);
-
         try {
             fms.push(1, 11);
             fms.push(1, 12);
@@ -368,7 +466,6 @@ class Rextester
         fms.printStack(0);
         fms.printStack(1);
         fms.printStack(2);
-
         try {
             fms.push(2, 111);
             fms.push(2, 222);
@@ -392,6 +489,36 @@ class Rextester
         */
         
         // 3.1: test MultiStack class
+        System.out.println("Test of MultiStack class");
+        
+        int stackNum = 3;
+        int stackCap = 100;
+        MultiStack ms = new MultiStack(stackNum, stackCap);
+        
+        System.out.println("In ms, number of stacks = " + ms.numOfStacks);
 
+        ms.printAllStacks();
+        ms.printAllStackInfos();
+        
+        try {
+            for (int i = 0; i < ms.stacks[0].capacity; i++) {
+                ms.push(0, i);
+            }
+
+            for (int i = 0; i < ms.stacks[1].capacity; i++) {
+                ms.push(1, i);
+            }
+
+            for (int i = 0; i < ms.stacks[2].capacity; i++) {
+                ms.push(2, i);
+            }
+        }
+        catch (FullStackException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        ms.printAllStacks();
+        ms.printAllStackInfos();
+        
     }
 }
