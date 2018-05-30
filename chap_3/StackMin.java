@@ -70,9 +70,19 @@ class Rextester
             if (top == null) throw new EmptyStackException();
             
             StackNode<T> p = top;
-            System.out.print("Top ->");
+            System.out.print("Top -> ");
             while (p != null) {
                 System.out.print(p.data + " -> ");
+                p = p.next;
+            }
+            System.out.print("Bottom");
+            System.out.println();
+
+            // also print out min values
+            p = top;
+            System.out.print("Min -> ");
+            while (p != null) {
+                System.out.print(p.minData + " -> ");
                 p = p.next;
             }
             System.out.print("Bottom");
@@ -593,22 +603,28 @@ class Rextester
         
         MyStack<Integer> st = new MyStack<Integer>();
         st.push(3);
-        st.push(2);
         st.push(1);
+        st.push(0);
+        st.push(-1);
+        st.push(5);
         st.printStack();
+        System.out.println("current min = " + st.min());
         
         int res = st.pop();
         System.out.println("pop out data: " + res);
         st.printStack();
+        System.out.println("current min = " + st.min());
         
         res = st.pop();
         System.out.println("pop out data: " + res);
         st.printStack();
+        System.out.println("current min = " + st.min());
+        
         res = st.pop();
         System.out.println("peek of top data: " + res);
-        //st.printStack();
+        st.printStack();
+        System.out.println("current min = " + st.min());
         
         System.out.println("The stack is empty: " + st.isEmpty());
-       
     }
 }
