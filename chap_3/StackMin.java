@@ -88,9 +88,50 @@ class Rextester
             System.out.print("Bottom");
             System.out.println();
         }
-            
     }
     
+    // 3.2 Stack Min: 2nd version which might save some space
+    @SuppressWarnings("serial")
+    public static class StackWithMin extends Stack<Integer>
+    {
+        // use another stack to keep min values
+        private Stack<Integer> s2;
+        
+        public StackWithMin() {
+            s2 = new Stack<Integer>();
+        }
+
+        public void push(int value) {
+            // value is the new min value, save it in s2
+            if (value <= this.min())
+                s2.push(value);
+            
+            super.push(value);
+        }
+
+        public Integer pop() {
+            // if the top value is the current min value, pop it from s2
+            if (super.peek() == this.min())
+                s2.pop();
+            
+            return super.pop();
+}
+        
+        public Integer min() {
+            if (s2.isEmpty())
+                return Integer.MAX_VALUE;
+            
+            return s2.peek();
+        }
+        
+        public void printStack() {
+            if (this.empty()) throw new EmptyStackException();
+            System.out.println("current stack:" + this);
+            System.out.println("s2:" + s2);
+            System.out.println("current min: " + this.min());
+        }
+    }
+        
     // Implement a queue using singlely-linked list
     // Add and remove an item must happen at the opposite end of the list.
     // Should we use the head (of the list) to be first item or last item?
@@ -601,6 +642,7 @@ class Rextester
         // 3.2: test Stack Min
         System.out.println("test Stack Min");
         
+        /*
         MyStack<Integer> st = new MyStack<Integer>();
         st.push(3);
         st.push(1);
@@ -624,7 +666,23 @@ class Rextester
         System.out.println("peek of top data: " + res);
         st.printStack();
         System.out.println("current min = " + st.min());
-        
         System.out.println("The stack is empty: " + st.isEmpty());
+        */
+        
+        StackWithMin swm = new StackWithMin();
+        swm.push(5);
+        swm.push(5);
+        swm.push(3);
+        swm.push(2);
+        swm.push(7);
+        swm.printStack();
+        System.out.println("pop the top: " + swm.pop());
+        swm.printStack();
+        System.out.println("pop the top: " + swm.pop());
+        swm.printStack();
+        System.out.println("pop the top: " + swm.pop());
+        swm.printStack();
+        System.out.println("pop the top: " + swm.pop());
+        swm.printStack();
     }
 }
