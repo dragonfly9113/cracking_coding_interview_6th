@@ -115,7 +115,7 @@ class Rextester
                 s2.pop();
             
             return super.pop();
-}
+        }
         
         public Integer min() {
             if (s2.isEmpty())
