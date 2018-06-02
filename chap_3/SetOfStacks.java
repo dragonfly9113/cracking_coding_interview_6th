@@ -480,14 +480,39 @@ class Rextester
         private int numOfStacks;
         private ArrayList<Stack<Integer>> stacks;
         private int stackSize;
+        private int currStackIdx;
         
-        public SetOfStacks(int stackSize) {
-            numOfStacks = 1;
+        public SetOfStacks(int numOfStacks, int stackSize) {
+            this.numOfStacks = numOfStacks;
             this.stackSize = stackSize;
+            this.currStackIdx = 0;
             stacks = new ArrayList<Stack<Integer>>(numOfStacks);
             for (int i = 0; i < numOfStacks; i++) {
-                stacks[i] = new Stack<Integer>();
+                Stack<Integer> stack = new Stack<Integer>();
+                this.stacks.add(stack);
             }
+        }
+        
+        public void push(int value) {
+            // if the current stack is not full, just push the data
+            if (!isStackFull(currStackIdx)) {
+                stacks[currStackIdx].push(value);
+            } 
+            else {  // if the current stack is full, need to create a new stack
+                Stack<Integer> stack = new Stack<Integer>();
+                this.stacks.add(stack);
+                
+                // update current stack index
+                currStackIdx++;
+                
+                // push the data to the new stack
+                stacks[currStackIdx].push(value);
+            }
+        }
+        
+        public boolean isStackFull() {
+            
+            
         }
         
     }
