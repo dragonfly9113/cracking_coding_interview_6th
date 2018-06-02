@@ -482,15 +482,13 @@ class Rextester
         private int stackSize;
         private int currStackIdx;
         
-        public SetOfStacks(int numOfStacks, int stackSize) {
-            this.numOfStacks = numOfStacks;
+        public SetOfStacks(int stackSize) {
+            numOfStacks = 1;
             this.stackSize = stackSize;
-            this.currStackIdx = 0;
-            stacks = new ArrayList<Stack<Integer>>(numOfStacks);
-            for (int i = 0; i < numOfStacks; i++) {
-                Stack<Integer> stack = new Stack<Integer>();
-                this.stacks.add(stack);
-            }
+            currStackIdx = 0;
+            stacks = new ArrayList<Stack<Integer>>();
+            Stack<Integer> stack = new Stack<Integer>();
+            stacks.add(stack);
         }
         
         public void push(int value) {
@@ -510,6 +508,29 @@ class Rextester
                 stacks.get(currStackIdx).push(value);
             }
         }
+        
+        public int pop() {
+            // if current stack is not empty, just pop it
+            if (currStackIdx >= 0 && !stacks.get(currStackIdx).empty())
+                return stacks.get(currentStackIdx).pop();
+            
+            // if the current stack is empty
+            if (stacks.get(currStackIdx).empty()) {
+                // if the current stack is the last one
+                if (
+                
+                // if there are still other stacks, remove the current one, move to the previous one and pop it
+                
+                
+                
+                
+                
+            }
+            
+            
+        }
+            
+            
         
         public boolean isStackFull(int index) {
             return stacks.get(index).size() == stackSize;
@@ -537,13 +558,13 @@ class Rextester
     {
         System.out.println("test Stack of Plates (SetOfStacks class)");
         
-        int numOfStacks = 1;
         int stackSize = 10;
-        SetOfStacks ss = new SetOfStacks(numOfStacks, stackSize);
+        SetOfStacks ss = new SetOfStacks(stackSize);
         
         for (int i = 0; i < stackSize * 2.5; i++)
             ss.push(i);
         
+        ss.push(0);
         ss.printStacks();
         
     }
