@@ -503,6 +503,7 @@ class Rextester
                 stacks.add(stack);
                 
                 // update current stack index
+                numOfStacks++;
                 currStackIdx++;
                 
                 // push the data to the new stack
@@ -514,7 +515,14 @@ class Rextester
             return stacks.get(index).size() == stackSize;
         }
         
-        public void print
+        public void printStacks() {
+            System.out.println("Number of stacks in the set: " + numOfStacks);
+            for (int i = 0; i < numOfStacks; i++) {
+                System.out.println(stacks.get(i));
+            }
+        }
+            
+            
     }
     
     @SuppressWarnings("serial")
@@ -527,53 +535,16 @@ class Rextester
         
     public static void main(String args[])
     {
-        // 3.2: test Stack Min
-        /*
-        System.out.println("test Stack Min");
-        
-        MyStack<Integer> st = new MyStack<Integer>();
-        st.push(3);
-        st.push(1);
-        st.push(0);
-        st.push(-1);
-        st.push(5);
-        st.printStack();
-        System.out.println("current min = " + st.min());
-        
-        int res = st.pop();
-        System.out.println("pop out data: " + res);
-        st.printStack();
-        System.out.println("current min = " + st.min());
-        
-        res = st.pop();
-        System.out.println("pop out data: " + res);
-        st.printStack();
-        System.out.println("current min = " + st.min());
-        
-        res = st.pop();
-        System.out.println("peek of top data: " + res);
-        st.printStack();
-        System.out.println("current min = " + st.min());
-        System.out.println("The stack is empty: " + st.isEmpty());
-
-        StackWithMin swm = new StackWithMin();
-        swm.push(5);
-        swm.push(5);
-        swm.push(3);
-        swm.push(2);
-        swm.push(7);
-        swm.printStack();
-        System.out.println("pop the top: " + swm.pop());
-        swm.printStack();
-        System.out.println("pop the top: " + swm.pop());
-        swm.printStack();
-        System.out.println("pop the top: " + swm.pop());
-        swm.printStack();
-        System.out.println("pop the top: " + swm.pop());
-        swm.printStack();
-        */
-        
         System.out.println("test Stack of Plates (SetOfStacks class)");
+        
+        int numOfStacks = 1;
+        int stackSize = 10;
+        SetOfStacks ss = new SetOfStacks(numOfStacks, stackSize);
+        
+        for (int i = 0; i < stackSize * 2.5; i++)
+            ss.push(i);
+        
+        ss.printStacks();
         
     }
 }
