@@ -477,9 +477,18 @@ class Rextester
     // stack (that is, pop() should return the same values as it would if there were just a single stack).
     public static class SetOfStacks
     {
+        private int numOfStacks;
+        private ArrayList<Stack<Integer>> stacks;
+        private int stackSize;
         
-        
-        
+        public SetOfStacks(int stackSize) {
+            numOfStacks = 1;
+            this.stackSize = stackSize;
+            stacks = new ArrayList<Stack<Integer>>(numOfStacks);
+            for (int i = 0; i < numOfStacks; i++) {
+                stacks[i] = new Stack<Integer>();
+            }
+        }
         
     }
     
@@ -493,163 +502,6 @@ class Rextester
         
     public static void main(String args[])
     {
-        // 3.0: test MyStack
-        /*
-        MyStack<Integer> st = new MyStack<Integer>();
-        st.push(3);
-        st.push(2);
-        st.push(1);
-        st.printStack();
-        
-        int res = st.pop();
-        System.out.println("pop out data: " + res);
-        st.printStack();
-        
-        res = st.pop();
-        System.out.println("pop out data: " + res);
-        st.printStack();
-        res = st.pop();
-        System.out.println("peek of top data: " + res);
-        //st.printStack();
-        
-        System.out.println("The stack is empty: " + st.isEmpty());
-        */
-        
-        // 3.0: test MyQueue
-        /*
-        MyQueue<Integer> mq = new MyQueue<Integer>();
-        
-        mq.add(1);
-        mq.add(2);
-        mq.add(3);
-        mq.printQueue();
-        
-        int res = mq.remove();
-        System.out.println("removed the first element: " + res);
-        mq.printQueue();
-        res = mq.remove();
-        System.out.println("removed the first element: " + res);
-        mq.printQueue();
-        res = mq.peek();
-        System.out.println("peek the first element: " + res);
-        mq.printQueue();
-        
-        System.out.println("The queue is empty: " + mq.isEmpty());
-        */
-        
-        // 3.1: Three in one: implement three stacks using an array
-        /*
-        MyThreeStacks st = new MyThreeStacks();
-        
-        st.push(1, 0);
-        st.push(2, 0);
-        st.printStack(0);
-        st.pop(0);
-        st.printStack(0);
-        System.out.println("The top of stack #0 is:" + st.peek(0));
-        st.push(4, 1);
-        st.push(5, 1);
-        st.push(6, 1);
-        st.printStack(1);
-        System.out.println("The top of stack #1 is:" + st.peek(1));
-        
-        st.push(8, 2);
-        st.push(9, 2);
-        st.printStack(2);
-        System.out.println("The top of stack #2 is:" + st.peek(2));
-        */
-        
-        // 3.1: test FixedMultiStack class
-        /*
-        FixedMultiStack fms = new FixedMultiStack(100);
-        
-        try {
-            fms.push(0, 1);
-            fms.push(0, 2);
-            fms.push(0, 3);
-        }
-        catch (FullStackException ex) {
-            System.out.println(ex.getMessage());
-        }
-        fms.printStack(0);
-        fms.printStack(1);
-        fms.printStack(2);
-        try {
-            fms.push(1, 11);
-            fms.push(1, 12);
-            fms.push(1, 13);
-        }
-        catch (FullStackException ex) {
-            System.out.println(ex.getMessage());
-        }
-        fms.printStack(0);
-        fms.printStack(1);
-        fms.printStack(2);
-        try {
-            fms.push(2, 111);
-            fms.push(2, 222);
-            fms.push(2, 333);
-        }
-        catch (FullStackException ex) {
-            System.out.println(ex.getMessage());
-        }
-        fms.printStack(0);
-        fms.printStack(1);
-        fms.printStack(2);
-        
-        System.out.println("The poped out data is: " + fms.pop(2));
-        fms.printStack(0);
-        fms.printStack(1);
-        fms.printStack(2);
-        
-        System.out.println("Peek stack 1: " + fms.peek(0));
-        System.out.println("Peek stack 2: " + fms.peek(1));
-        System.out.println("Peek stack 3: " + fms.peek(2));
-        */
-        
-        // 3.1: test MultiStack class
-        /*
-        System.out.println("Test of MultiStack class");
-        
-        int stackNum = 3;
-        int stackCap = 100;
-        MultiStack ms = new MultiStack(stackNum, stackCap);
-        
-        System.out.println("In ms, number of stacks = " + ms.numOfStacks);
-        //ms.printAllStacks();
-        //ms.printAllStackInfos();
-        
-        try {
-            for (int i = 0; i < 3; i++) {
-                ms.push(0, i);
-            }
-            for (int i = 0; i < ms.stacks[1].capacity; i++) {
-                ms.push(1, i);
-            }
-            for (int i = 0; i < ms.stacks[2].capacity; i++) {
-                ms.push(2, i);
-            }
-            
-            ms.push(1, 100);
-            ms.push(1, 101);
-            ms.push(1, 102);
-        }
-        catch (FullStackException ex) {
-            System.out.println(ex.getMessage());
-        }
-        
-        System.out.println("pop stack #1: " + ms.pop(1));
-        System.out.println("peek stack #1: " + ms.peek(1));
-        
-        System.out.println("pop stack #1: " + ms.pop(0));
-        System.out.println("pop stack #1: " + ms.pop(0));
-        System.out.println("pop stack #1: " + ms.pop(0));
-        //System.out.println("pop stack #1: " + ms.pop(0));
-        
-        ms.printAllStacks();
-        ms.printAllStackInfos();
-        */
-        
         // 3.2: test Stack Min
         /*
         System.out.println("test Stack Min");
