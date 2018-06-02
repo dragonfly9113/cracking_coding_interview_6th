@@ -496,25 +496,25 @@ class Rextester
         public void push(int value) {
             // if the current stack is not full, just push the data
             if (!isStackFull(currStackIdx)) {
-                stacks[currStackIdx].push(value);
+                stacks.get(currStackIdx).push(value);
             } 
             else {  // if the current stack is full, need to create a new stack
                 Stack<Integer> stack = new Stack<Integer>();
-                this.stacks.add(stack);
+                stacks.add(stack);
                 
                 // update current stack index
                 currStackIdx++;
                 
                 // push the data to the new stack
-                stacks[currStackIdx].push(value);
+                stacks.get(currStackIdx).push(value);
             }
         }
         
-        public boolean isStackFull() {
-            
-            
+        public boolean isStackFull(int index) {
+            return stacks.get(index).size() == stackSize;
         }
         
+        public void print
     }
     
     @SuppressWarnings("serial")
