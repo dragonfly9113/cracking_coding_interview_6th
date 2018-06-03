@@ -581,7 +581,18 @@ class Rextester
         }
 
         public int pop() {
-            return 0;
+            StackWithCap last = getLastStack();
+            
+            if (last == null) throw new EmptyStackException();
+            int value;
+            
+            if (last != null && !last.empty()) {
+                value = last.pop();
+            }
+            
+            if (last.empty()) {
+                stacks.remove(last);
+            }
         }
         
         public StackWithCap getLastStack() {
