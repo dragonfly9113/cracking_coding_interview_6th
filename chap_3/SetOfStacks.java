@@ -541,9 +541,62 @@ class Rextester
                 System.out.println(stacks.get(i));
             }
         }
-            
-            
     }
+    
+    // 3.3: Stack of Plates: same idea as the first version but in a simpler form
+    public static class SetOfStacks2
+    {
+        @SuppressWarnings("serial")
+        private class StackWithCap extends Stack<Integer>
+        {
+            private int capacity;
+            
+            public StackWithCap(int capacity) {
+                this.capacity = capacity;
+            }
+            
+            public boolean isFull() {
+                return this.size() == capacity;
+            }
+        }
+        
+        private ArrayList<StackWithCap> stacks;
+        private int capacity;
+        
+        public SetOfStacks2(int capacity) {
+            stacks = new ArrayList<StackWithCap>();
+            this.capacity = capacity;
+        }
+        
+        public void push(int value) {
+            StackWithCap last = getLastStack();
+            
+            if (last != null && !last.isFull())
+                last.push(value);
+            else {
+                StackWithCap stack = new StackWithCap(capacity);
+                stack.push(value);
+                stacks.add(stack);
+            }
+        }
+
+        public int pop() {
+            return 0;
+        }
+        
+        public StackWithCap getLastStack() {
+            return stacks.isEmpty() ? null : stacks.get(stacks.size() - 1);
+        }
+        
+        public void printStacks() {
+            int numOfStacks = stacks.size();
+            System.out.println("Number of stacks: " + numOfStacks);
+            for (int i = 0; i < numOfStacks; i++) {
+                System.out.println(stacks.get(i));
+            }
+        }
+    }
+    
     
     @SuppressWarnings("serial")
     public static class FullStackException extends Exception
@@ -558,7 +611,8 @@ class Rextester
         System.out.println("test Stack of Plates (SetOfStacks class)");
         
         int stackSize = 10;
-        SetOfStacks ss = new SetOfStacks(stackSize);
+        //SetOfStacks ss = new SetOfStacks(stackSize);
+        SetOfStacks2 ss = new SetOfStacks2(stackSize);
         
         for (int i = 0; i < stackSize; i++)
             ss.push(i);
