@@ -477,13 +477,11 @@ class Rextester
     // stack (that is, pop() should return the same values as it would if there were just a single stack).
     public static class SetOfStacks
     {
-        private int numOfStacks;
         private ArrayList<Stack<Integer>> stacks;
         private int stackSize;
         private int currStackIdx;
         
         public SetOfStacks(int stackSize) {
-            numOfStacks = 1;
             this.stackSize = stackSize;
             currStackIdx = 0;
             stacks = new ArrayList<Stack<Integer>>();
@@ -499,9 +497,6 @@ class Rextester
             else {  // if the current stack is full, need to create a new stack
                 Stack<Integer> stack = new Stack<Integer>();
                 stacks.add(stack);
-                
-                // update current stack index
-                numOfStacks++;
                 currStackIdx++;
                 
                 // push the data to the new stack
@@ -512,14 +507,19 @@ class Rextester
         public int pop() {
             // if the set if empty, just throw exception
             if (isSetEmpty()) throw new EmptyStackException();
-            
-            // if the current stack is empty, remove it and move on to the next one
+
+            int value = stacks.get(currStackIdx).pop();
+            // now if the set if empty, just return the value
+            if (isSetEmpty())
+                return value;
+                
+            // if the current stack is empty, remove it and update currStackIdx;
             if (isStackEmpty(currStackIdx)) {
                 stacks.remove(currStackIdx);
                 currStackIdx--;
             }
             
-            return stacks.get(currStackIdx).pop();
+            return value;
         }
             
         public boolean isStackEmpty(int index) {
@@ -531,11 +531,12 @@ class Rextester
         }
         
         public boolean isSetEmpty() {
-            return currStackIdx == 0 && isStackEmpty(currStackIdx);
+            return (currStackIdx == 0 && isStackEmpty(currStackIdx));
         }
         
         public void printStacks() {
-            System.out.println("Number of stacks in the set: " + numOfStacks);
+            int numOfStacks = stacks.size();
+            System.out.println("Number of stacks: " + numOfStacks + " current stack index: " + currStackIdx);
             for (int i = 0; i < numOfStacks; i++) {
                 System.out.println(stacks.get(i));
             }
@@ -559,11 +560,25 @@ class Rextester
         int stackSize = 10;
         SetOfStacks ss = new SetOfStacks(stackSize);
         
-        for (int i = 0; i < stackSize * 2.5; i++)
+        for (int i = 0; i < stackSize; i++)
             ss.push(i);
         
-        ss.push(0);
+        ss.push(10);
+        ss.push(11);
         ss.printStacks();
         
+        System.out.println("pop out: " + ss.pop());
+        ss.printStacks();
+        
+        System.out.println("pop out: " + ss.pop());
+        ss.printStacks();
+
+        System.out.println("pop out: " + ss.pop());
+        ss.printStacks();
+
+        for (int i = 0; i < 9; i++) {
+            ss.pop();
+        }
+        ss.printStacks();
     }
 }
