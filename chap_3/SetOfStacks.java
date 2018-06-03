@@ -510,30 +510,28 @@ class Rextester
         }
         
         public int pop() {
-            // if current stack is not empty, just pop it
-            if (currStackIdx >= 0 && !stacks.get(currStackIdx).empty())
-                return stacks.get(currentStackIdx).pop();
+            // if the set if empty, just throw exception
+            if (isSetEmpty()) throw new EmptyStackException();
             
-            // if the current stack is empty
-            if (stacks.get(currStackIdx).empty()) {
-                // if the current stack is the last one
-                if (
-                
-                // if there are still other stacks, remove the current one, move to the previous one and pop it
-                
-                
-                
-                
-                
+            // if the current stack is empty, remove it and move on to the next one
+            if (isStackEmpty(currStackIdx)) {
+                stacks.remove(currStackIdx);
+                currStackIdx--;
             }
             
-            
+            return stacks.get(currStackIdx).pop();
         }
             
-            
+        public boolean isStackEmpty(int index) {
+            return stacks.get(index).empty();
+        }
         
         public boolean isStackFull(int index) {
             return stacks.get(index).size() == stackSize;
+        }
+        
+        public boolean isSetEmpty() {
+            return currStackIdx == 0 && isStackEmpty(currStackIdx);
         }
         
         public void printStacks() {
