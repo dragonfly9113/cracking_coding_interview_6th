@@ -626,7 +626,7 @@ class Rextester
         private ArrayList<StackWithCap> stacks;
         private int capacity;
         
-        public SetOfStacks2(int capacity) {
+        public SetOfStacks3(int capacity) {
             stacks = new ArrayList<StackWithCap>();
             this.capacity = capacity;
         }
@@ -653,6 +653,40 @@ class Rextester
             }
             
             return value;
+        }
+        
+        public int popAt(int index) {
+            StackWithCap last = getLastStack();
+            if (last == null) throw new EmptyStackException();
+            if (index < 0 || index >= stacks.size()) throw new IndexOutOfBoundsException();
+
+            int value;
+            if (index == stacks.size() - 1) {
+                value = pop();
+                return value;
+            }
+                
+            StackWithCap stack = stacks.get(index);
+            value = stack.pop();
+            
+            rollOver(index);
+            return value;
+        }
+
+        public void rollOver(int index) {
+            if (index == stacks.size() - 1) return;
+
+            StackWithCap stack = stacks.get(index);
+            StackWithCap next = stacks.get(index + 1);
+            int tmp = next.remove(0);
+            stack.push(tmp);
+
+            if (next.empty()) {
+                stacks.remove(next);
+                return;
+            }
+            
+            rollOver(index + 1);
         }
         
         public StackWithCap getLastStack() {
@@ -682,27 +716,21 @@ class Rextester
         
         int stackSize = 10;
         //SetOfStacks ss = new SetOfStacks(stackSize);
-        SetOfStacks2 ss = new SetOfStacks2(stackSize);
+        //SetOfStacks2 ss = new SetOfStacks2(stackSize);
+        SetOfStacks3 ss = new SetOfStacks3(stackSize);
         
-        for (int i = 0; i < stackSize; i++)
+        for (int i = 0; i < stackSize * 2; i++)
             ss.push(i);
         
-        ss.push(10);
-        ss.push(11);
+        ss.push(20);
+        ss.push(21);
         ss.printStacks();
         
-        System.out.println("pop out: " + ss.pop());
-        ss.printStacks();
-        
-        System.out.println("pop out: " + ss.pop());
+        int index = 0;
+        System.out.println("pop out at stack# " + index + ": " + ss.popAt(index));
         ss.printStacks();
 
-        System.out.println("pop out: " + ss.pop());
-        ss.printStacks();
-
-        for (int i = 0; i < 9; i++) {
-            ss.pop();
-        }
+        System.out.println("pop out at stack# " + index + ": " + ss.popAt(index));
         ss.printStacks();
     }
 }
