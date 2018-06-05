@@ -705,7 +705,24 @@ class Rextester
     // 3.4: Implement a queue using two stacks
     public static class MyQueueWithStack<T> 
     {
+        private Stack<T> inStack, outStack;
+        private boolean inMode;
         
+        public MyQueueWithStack() {
+            inStack = new Stack<T>();
+            outStack = new Stack<T>();
+            inMode = true;
+        }
+        
+        public void add(T value) {
+            
+            
+        }
+        
+        //public T remove() {
+            //T value = 0;
+            //return value;
+        //}
     }
     
     @SuppressWarnings("serial")
