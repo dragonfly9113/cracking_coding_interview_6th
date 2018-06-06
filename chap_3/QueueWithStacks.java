@@ -714,15 +714,36 @@ class Rextester
             inMode = true;
         }
         
-        public void add(T value) {
+        // queue operation can only happen on inStack
+        public void queue(T value) {
+            // move all data to inStack if they are not yet
+            if (!inMode) {
+                moveData();
+            }
             
-            
+            inStack.push(value);
         }
-        
-        //public T remove() {
-            //T value = 0;
-            //return value;
-        //}
+
+        // dequeue operation can only happen on outStack
+        public T dequeue() {
+            // move all data to outStack if they are not yet
+            if (inMode) {
+                moveData();
+            }
+
+            if (outStack.empty()) throw new EmptyStackException();
+            
+            return outStack.pop();
+        }
+
+        public void moveData() {
+            Stack<T> source = inMode ? inStack : outStack;
+            Stack<T> target = inMode ? outStack : inStack;
+            
+            while (!source.empty()) {
+                target.push(source.pop());
+            }
+        }
     }
     
     @SuppressWarnings("serial")
