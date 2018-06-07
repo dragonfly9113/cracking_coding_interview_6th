@@ -719,6 +719,7 @@ class Rextester
             // move all data to inStack if they are not yet
             if (!inMode) {
                 moveData();
+                inMode = true;
             }
             
             inStack.push(value);
@@ -729,6 +730,7 @@ class Rextester
             // move all data to outStack if they are not yet
             if (inMode) {
                 moveData();
+                inMode = false;
             }
 
             if (outStack.empty()) throw new EmptyStackException();
@@ -744,6 +746,10 @@ class Rextester
                 target.push(source.pop());
             }
         }
+        
+        public void printQueue() {
+            System.out.println(inMode ? inStack : outStack);
+        }
     }
     
     @SuppressWarnings("serial")
@@ -758,5 +764,24 @@ class Rextester
     {
         System.out.println("3.4: Implement a queue using two stacks");
         
+        MyQueueWithStack<Integer> mq = new MyQueueWithStack<Integer>();
+        
+        mq.queue(1);
+        mq.queue(2);
+        mq.queue(3);
+        mq.printQueue();
+        
+        System.out.println("dequeue: " + mq.dequeue());
+        mq.printQueue();
+        
+        mq.queue(4);
+        mq.queue(5);
+        mq.printQueue();
+        
+        System.out.println("dequeue: " + mq.dequeue());
+        System.out.println("dequeue: " + mq.dequeue());
+        System.out.println("dequeue: " + mq.dequeue());
+        System.out.println("dequeue: " + mq.dequeue());
+        mq.printQueue();
     }
 }
