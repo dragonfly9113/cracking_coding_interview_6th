@@ -702,6 +702,106 @@ class Rextester
         }
     }
     
+    // 3.3: Stack of Plates: implement a function popAt(int index) which performs a pop oeration on a specific substack
+    // SetOfStacks3 uses Stack.remove() method which is actually inherited from Vector class. This is not allowed since Stack.remove() is not
+    // a feature of stack. We should only use push() and pop() methods.
+    // Rewrite it by only using push() and pop() methods
+    public static class SetOfStacks4
+    {
+        @SuppressWarnings("serial")
+        private class StackWithCap extends Stack<Integer>
+        {
+            private int capacity;
+            
+            public StackWithCap(int capacity) {
+                this.capacity = capacity;
+            }
+            
+            public boolean isFull() {
+                return this.size() == capacity;
+            }
+        }
+        
+        private ArrayList<StackWithCap> stacks;
+        private int capacity;
+        
+        public SetOfStacks4(int capacity) {
+            stacks = new ArrayList<StackWithCap>();
+            this.capacity = capacity;
+        }
+        
+        public void push(int value) {
+            StackWithCap last = getLastStack();
+            
+            if (last != null && !last.isFull())
+                last.push(value);
+            else {
+                StackWithCap stack = new StackWithCap(capacity);
+                stack.push(value);
+                stacks.add(stack);
+            }
+        }
+
+        public int pop() {
+            StackWithCap last = getLastStack();
+            if (last == null) throw new EmptyStackException();
+            
+            int value = last.pop();
+            if (last.empty()) {
+                stacks.remove(last);
+            }
+            
+            return value;
+        }
+        
+        public int popAt(int index) {
+            StackWithCap last = getLastStack();
+            if (last == null) throw new EmptyStackException();
+            if (index < 0 || index >= stacks.size()) throw new IndexOutOfBoundsException();
+
+            int value;
+            if (index == stacks.size() - 1) {
+                value = pop();
+                return value;
+            }
+                
+            StackWithCap stack = stacks.get(index);
+            value = stack.pop();
+            
+            rollOver(index);
+            return value;
+        }
+
+        public void rollOver(int index) {
+            if (index == stacks.size() - 1) return;
+
+            StackWithCap stack = stacks.get(index);
+            StackWithCap next = stacks.get(index + 1);
+            //int tmp = next.remove(0);
+            
+            stack.push(tmp);
+
+            if (next.empty()) {
+                stacks.remove(next);
+                return;
+            }
+            
+            rollOver(index + 1);
+        }
+        
+        public StackWithCap getLastStack() {
+            return stacks.isEmpty() ? null : stacks.get(stacks.size() - 1);
+        }
+        
+        public void printStacks() {
+            int numOfStacks = stacks.size();
+            System.out.println("Number of stacks: " + numOfStacks);
+            for (int i = 0; i < numOfStacks; i++) {
+                System.out.println(stacks.get(i));
+            }
+        }
+    }
+    
     @SuppressWarnings("serial")
     public static class FullStackException extends Exception
     {
