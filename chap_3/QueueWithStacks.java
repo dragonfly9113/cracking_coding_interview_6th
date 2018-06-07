@@ -752,6 +752,53 @@ class Rextester
         }
     }
     
+    // 3.4: a better way
+    // The above MyQueueWithStack class has a weak point: if a user do queue(), dequeue() aternatively, data will be moved between two stacks unnecessarily.
+    // In this case, for either queue() or dequeue(), time complexity will be O(N). This will be bad if N is large.
+    // In the following class, we will try to avoid unnecessary data-moving between two stacks.
+    // Time complexity: O(1) for both queue() and dequeue()
+    public static class MyQueueWithStack1<T>
+    {
+        private Stack<T> stackNewestOnTop, stackOldestOnTop;
+        
+        public MyQueueWithStack1() {
+            stackNewestOnTop = new Stack<T>();
+            stackOldestOnTop = new Stack<T>();
+        }
+        
+        // queue operation: push to stackNewestOnTop since the newest data is on top in this stack
+        public void queue(T value) {
+            stackNewestOnTop.push(value);
+        }
+
+        // dequeue operation: pop from stackOldestOnTop since the oldest data (to be dequeued) is on top in this stack
+        public T dequeue() {
+            if (isEmpty()) throw new EmptyStackException();
+
+            // if stackOldestOnTop is empty, move data from stackNewestOnTop to stackOldestOnTop
+            if (stackOldestOnTop.empty()) {
+                moveData(stackNewestOnTop, stackOldestOnTop);
+            }
+            
+            return stackOldestOnTop.pop();
+        }
+
+        public void moveData(Stack<T> src, Stack<T> dst) {
+            while (!src.empty()) {
+                dst.push(src.pop());
+            }
+        }
+        
+        public boolean isEmpty() {
+            return (stackNewestOnTop.empty() && stackOldestOnTop.empty());
+        }
+        
+        public void printQueue() {
+            System.out.println("stackNewestOnTop: " + stackNewestOnTop);
+            System.out.println("stackOldestOnTop: " + stackOldestOnTop); 
+        }
+    }    
+    
     @SuppressWarnings("serial")
     public static class FullStackException extends Exception
     {
@@ -764,7 +811,7 @@ class Rextester
     {
         System.out.println("3.4: Implement a queue using two stacks");
         
-        MyQueueWithStack<Integer> mq = new MyQueueWithStack<Integer>();
+        MyQueueWithStack1<Integer> mq = new MyQueueWithStack1<Integer>();
         
         mq.queue(1);
         mq.queue(2);
