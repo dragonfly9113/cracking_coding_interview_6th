@@ -777,7 +777,9 @@ class Rextester
 
             StackWithCap stack = stacks.get(index);
             StackWithCap next = stacks.get(index + 1);
+            
             //int tmp = next.remove(0);
+            int tmp = removeOldestAndShift(next);
             
             stack.push(tmp);
 
@@ -787,6 +789,20 @@ class Rextester
             }
             
             rollOver(index + 1);
+        }
+        
+        public int removeOldestAndShift(StackWithCap stack) {
+            StackWithCap tmp = new StackWithCap(capacity);
+            
+            while (!stack.empty()) {
+                tmp.push(stack.pop());
+            }
+            
+            int value = tmp.pop();
+            while (!tmp.empty()) {
+                stack.push(tmp.pop());
+            }
+            return value;
         }
         
         public StackWithCap getLastStack() {
@@ -817,7 +833,8 @@ class Rextester
         int stackSize = 10;
         //SetOfStacks ss = new SetOfStacks(stackSize);
         //SetOfStacks2 ss = new SetOfStacks2(stackSize);
-        SetOfStacks3 ss = new SetOfStacks3(stackSize);
+        //SetOfStacks3 ss = new SetOfStacks3(stackSize);
+        SetOfStacks4 ss = new SetOfStacks4(stackSize);
         
         for (int i = 0; i < stackSize * 2; i++)
             ss.push(i);
