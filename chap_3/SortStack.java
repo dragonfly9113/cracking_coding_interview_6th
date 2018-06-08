@@ -864,6 +864,63 @@ class Rextester
             return res;
         }
     }
+
+    // 3.5: Sort stack with smallest element on top: similar to the rudimentary version but try to use recursion
+    //Input : [34, 3, 31, 98, 92, 23]
+    //Output: [98, 92, 34, 31, 23, 3]
+    // time: O(N^2)
+    public static class SortStack1
+    {
+        private static class Result
+        {
+            int value;
+            Stack<Integer> stack;
+            
+            public Result() {
+            }
+            
+            public Result(Stack<Integer> stack) {
+                this.stack = stack;
+            }
+        }
+            
+        public static Stack<Integer> sort(Stack<Integer> stack) {
+            Stack<Integer> sorted = new Stack<Integer>();
+            
+            Stack<Integer> newStack = sortHelper(stack);
+
+            return sorted;
+        }
+
+        public static Stack<Integer> sortHelper(Stack<Integer> stack) {
+            if (stack.empty) return null;
+
+            Stack<Integer> tmp = new Stack<Integer>();
+            
+            // go through stack to find out the max value
+            int maxValue = Integer.MIN_VALUE;
+            while (!stack.empty()) {
+                int value = stack.peek();
+                maxValue = (value > maxValue) ? value : maxValue;
+            }
+            
+            // go through stack again to remove the current max element and return a shorter stack
+            boolean maxIgnored = false;
+            while (!stack.empty()) {
+                int value = stack.pop();
+                if (!maxIgnored && value == maxValue) {
+                    maxIgnored = true;
+                    continue;
+                }
+                
+                tmp.push(value);
+            }
+            
+            return tmp;
+        }
+        
+        
+    }
     
     @SuppressWarnings("serial")
     public static class FullStackException extends Exception
