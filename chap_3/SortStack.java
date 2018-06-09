@@ -868,58 +868,45 @@ class Rextester
     // 3.5: Sort stack with smallest element on top: similar to the rudimentary version but try to use recursion
     //Input : [34, 3, 31, 98, 92, 23]
     //Output: [98, 92, 34, 31, 23, 3]
-    // time: O(N^2)
     public static class SortStack1
     {
-        private static class Result
-        {
-            int value;
-            Stack<Integer> stack;
-            
-            public Result() {
-            }
-            
-            public Result(Stack<Integer> stack) {
-                this.stack = stack;
-            }
-        }
-            
         public static Stack<Integer> sort(Stack<Integer> stack) {
             Stack<Integer> sorted = new Stack<Integer>();
-            
-            Stack<Integer> newStack = sortHelper(stack);
+            sortHelper(stack, sorted);
 
             return sorted;
         }
 
-        public static Stack<Integer> sortHelper(Stack<Integer> stack) {
-            if (stack.empty) return null;
+        public static void sortHelper(Stack<Integer> stack, Stack<Integer> sorted) {
+            if (stack.empty()) return;
 
             Stack<Integer> tmp = new Stack<Integer>();
             
             // go through stack to find out the max value
             int maxValue = Integer.MIN_VALUE;
             while (!stack.empty()) {
-                int value = stack.peek();
+                int value = stack.pop();
                 maxValue = (value > maxValue) ? value : maxValue;
+                tmp.push(value);
             }
             
-            // go through stack again to remove the current max element and return a shorter stack
+            // go through tmp to remove the current max element from the stack
             boolean maxIgnored = false;
-            while (!stack.empty()) {
-                int value = stack.pop();
+            while (!tmp.empty()) {
+                int value = tmp.pop();
                 if (!maxIgnored && value == maxValue) {
                     maxIgnored = true;
                     continue;
                 }
                 
-                tmp.push(value);
+                stack.push(value);
             }
             
-            return tmp;
+            sorted.push(maxValue);
+            sortHelper(stack, sorted);
+            
+            return;
         }
-        
-        
     }
     
     @SuppressWarnings("serial")
@@ -947,7 +934,18 @@ class Rextester
         stack.push(23);
         System.out.println("Input: " + stack);
         //Stack<Integer> st = SortStack.sort(stack);
-        System.out.println("Output: " + SortStack.sort(stack));
+        System.out.println("Output: " + SortStack1.sort(stack));
+
+        stack.clear();
+        stack.push(12);
+        stack.push(23);
+        stack.push(4);
+        stack.push(31);
+        stack.push(55);
+        stack.push(66);
+        stack.push(77);
+        System.out.println("Input: " + stack);
+        System.out.println("Output: " + SortStack1.sort(stack));
         
     }
 }
