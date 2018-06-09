@@ -909,6 +909,35 @@ class Rextester
         }
     }
     
+    // 3.5: Actually we can do this with only one extra stack
+    //Input : [34, 3, 31, 98, 92, 23]
+    //Output: [98, 92, 34, 31, 23, 3]
+    //time: O(N^2)
+    public static class SortStack2
+    {
+        public static Stack<Integer> sort(Stack<Integer> stack) {
+            Stack<Integer> sorted = new Stack<Integer>();
+
+            while (!stack.empty()) {
+                int value = stack.pop();
+                
+                if (sorted.empty() || value <= sorted.peek()) {
+                    sorted.push(value);
+                    continue;
+                }
+
+                // now let's handle the trick case: value > sorted.peek()
+                while (!sorted.empty() && value > sorted.peek()) {
+                    stack.push(sorted.pop());
+                }
+                
+                sorted.push(value);
+            }
+
+            return sorted;
+        }
+    }
+    
     @SuppressWarnings("serial")
     public static class FullStackException extends Exception
     {
@@ -933,8 +962,7 @@ class Rextester
         stack.push(92);
         stack.push(23);
         System.out.println("Input: " + stack);
-        //Stack<Integer> st = SortStack.sort(stack);
-        System.out.println("Output: " + SortStack1.sort(stack));
+        System.out.println("Output: " + SortStack2.sort(stack));
 
         stack.clear();
         stack.push(12);
@@ -945,7 +973,6 @@ class Rextester
         stack.push(66);
         stack.push(77);
         System.out.println("Input: " + stack);
-        System.out.println("Output: " + SortStack1.sort(stack));
-        
+        System.out.println("Output: " + SortStack2.sort(stack));
     }
 }
