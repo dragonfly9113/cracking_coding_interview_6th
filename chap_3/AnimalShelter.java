@@ -940,6 +940,7 @@ class Rextester
     
     // 3.6: Animal Shelter
     // put all animals (cats or dogs) in one linked list
+    // Time complexity: dequeueAny() is always O(1), dequeueDog() or dequeueCat() can be O(N) in the worst case
     public static class AnimalShelter
     {
         private LinkedList<Animal> animalQueue = null;
@@ -958,29 +959,60 @@ class Rextester
             return animalQueue.removeFirst();
         }
         
-        public Dog dequeuDog() {
-            Dog d = new Dog("dog1");
+        public Dog dequeueDog() {
+            if (animalQueue.isEmpty()) throw new NoSuchElementException();
+
+            Iterator<Animal> it = animalQueue.iterator();
             
-            return d;
+            while (it.hasNext()) {
+                Animal a = it.next();
+                
+                if (a instanceof Dog) {
+                    it.remove();
+                    return (Dog)a;
+                }
+            }
+            
+            return null;
+        }
+
+        public Cat dequeueCat() {
+            if (animalQueue.isEmpty()) throw new NoSuchElementException();
+
+            Iterator<Animal> it = animalQueue.iterator();
+            
+            while (it.hasNext()) {
+                Animal a = it.next();
+                
+                if (a instanceof Cat) {
+                    it.remove();
+                    return (Cat)a;
+                }
+            }
+            
+            return null;
         }
         
         public void printQueue() {
             Iterator<Animal> it = animalQueue.iterator();
+            
             System.out.println("Current animal queue:");
-
             while (it.hasNext()) {
-                System.out.print(it.next() + " ");
+                System.out.print(it.next().getName() + " ");
             }
             System.out.println();
         }
-        
     }
-        
+    
     abstract static class Animal
     {
         private String name;
         
         public Animal(String n) { name = n; }
+        
+        public String getName() {
+            return name;
+        }
     }
     
     public static class Dog extends Animal
@@ -992,94 +1024,6 @@ class Rextester
     {
         public Cat(String n) { super(n); }
     }
-    
-    public class Linked_list
-    {
-        Node head;
-        
-        class Node
-        {
-            int data;
-            Node next;
-            
-            Node(int d) { data = d; next = null; }
-        }
-        
-        // Insert a new Node at front of the list.
-        // Time complexity: O(1)
-        public void push(int new_data)
-        {
-            Node new_node = new Node(new_data);
-            
-            new_node.next = head;
-            head = new_node;
-        }
-
-        // Append a new Node at the end of the list.
-        // Time complexity: O(N)
-        public void append(int new_data)
-        {
-            Node new_node = new Node(new_data);
-            
-            if (head == null) {
-                head = new_node;
-                return;
-            }
-            
-            Node temp = head;
-            while (temp.next != null) {
-                temp = temp.next;
-            }
-            
-            temp.next = new_node;
-        }
-        
-        // Insert a new Node after the given Node
-        // Assume prev_node is either null or a valid Node in the list
-        // Time complexity: O(1)
-        public void insertAfter(Node prev_node, int new_data)
-        {
-            if (prev_node == null) return;
-            
-            Node new_node = new Node(new_data);
-
-            new_node.next = prev_node.next;
-            prev_node.next = new_node;
-        }
-        
-        // Given a key, deletes the first occurance of key in the linked list
-        public void deleteNode(int key)
-        {
-            // empty list, abort deletion
-            if (head == null) return;
-            
-            // the first occurance of key is the head, delete the head
-            if (head.data == key) {
-                head = head.next;
-                return;
-            }
-                        
-            Node temp = head;
-            while (temp.next != null && temp.next.data != key)
-                temp = temp.next;
-            
-            // no occurance of key found, abort deletion
-            if (temp.next == null) return;
-            
-            // found the first occurance of key, delete the according node
-            temp.next = temp.next.next;
-        }
-        
-        // Print out the list
-        public void printList()
-        {
-            Node temp = head;
-            while (temp != null) {
-                System.out.print(temp.data + " ");
-                temp = temp.next;
-            }
-        }
-    }    
     
     @SuppressWarnings("serial")
     public static class FullStackException extends Exception
@@ -1097,8 +1041,25 @@ class Rextester
         AnimalShelter as = new AnimalShelter();
         as.enqueue(new Dog("dog1"));
         as.enqueue(new Cat("cat1"));
-        
+        as.enqueue(new Cat("cat2"));
+        as.enqueue(new Cat("cat3"));
+        as.enqueue(new Dog("dog2"));
+        as.enqueue(new Dog("dog3"));
         as.printQueue();
- 
+        
+        //System.out.println("dequeueAny(): " + as.dequeueAny().getName());
+        //as.printQueue();
+        //System.out.println("dequeueAny(): " + as.dequeueAny().getName());
+        //as.printQueue();
+
+        //System.out.println("dequeueDog(): " + as.dequeueDog().getName());
+        //as.printQueue();
+        //System.out.println("dequeueDog(): " + as.dequeueDog().getName());
+        //as.printQueue();
+
+        System.out.println("dequeueCat(): " + as.dequeueCat().getName());
+        as.printQueue();
+        System.out.println("dequeueCat(): " + as.dequeueCat().getName());
+        as.printQueue();
     }
 }
