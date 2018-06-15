@@ -1005,20 +1005,22 @@ class Rextester
     }
     
     // 3.6: Animal Shelter: use two queues instead of one
-    // Time complexity: 
+    // Time complexity: all O(1)
     public static class AnimalShelter1
     {
+        private int order;
         private LinkedList<Dog> dogQueue = null;
         private LinkedList<Cat> catQueue = null;
         
         public AnimalShelter1() {
+            order = 0;
             dogQueue = new LinkedList<Dog>();
             catQueue = new LinkedList<Cat>();
         }
         
         public void enqueue(Animal a) {
-            Animal.globalOrder++;
-            a.order = Animal.globalOrder;
+            this.order++;
+            a.order = this.order;
             
             if (a instanceof Dog) {
                 dogQueue.add((Dog)a);
@@ -1026,7 +1028,37 @@ class Rextester
                 catQueue.add((Cat)a);
             }
         }
+
+        public Animal dequeueAny() {
+            if (dogQueue.isEmpty() && catQueue.isEmpty()) throw new NoSuchElementException();
+            
+            if (dogQueue.isEmpty()) {
+                return dequeueCat();
+            } else if (catQueue.isEmpty()) {
+                return dequeueDog();
+            }
+            
+            Dog d = dogQueue.peek();
+            Cat c = catQueue.peek();
+            if (d.getOrder() < c.getOrder()) {
+                return dequeueDog();
+            } else {
+                return dequeueCat();
+            }
+        }
         
+        public Dog dequeueDog() {
+            if (dogQueue.isEmpty()) throw new NoSuchElementException();
+            
+            return dogQueue.remove();
+        }
+
+        public Cat dequeueCat() {
+            if (catQueue.isEmpty()) throw new NoSuchElementException();
+            
+            return catQueue.remove();
+        }
+
         public void printQueue() {
             Iterator<Dog> itd = dogQueue.iterator();
             Iterator<Cat> itc = catQueue.iterator();
@@ -1052,7 +1084,6 @@ class Rextester
     {
         private String name;
         private int order;
-        public static int globalOrder = 0;
         
         public Animal(String n) { name = n; }
         
@@ -1096,31 +1127,24 @@ class Rextester
         as.enqueue(new Dog("dog2"));
         as.enqueue(new Dog("dog3"));
         as.printQueue();
-
+        System.out.println();
         
-        AnimalShelter1 as1 = new AnimalShelter1();
-        as1.enqueue(new Dog("dog1"));
-        as1.enqueue(new Cat("cat1"));
-        as1.enqueue(new Cat("cat2"));
-        as1.enqueue(new Cat("cat3"));
-        as1.enqueue(new Dog("dog2"));
-        as1.enqueue(new Dog("dog3"));
-        as1.printQueue();
-        
-        //System.out.println("dequeueAny(): " + as.dequeueAny().getName());
-        //as.printQueue();
-        //System.out.println("dequeueAny(): " + as.dequeueAny().getName());
-        //as.printQueue();
+        System.out.println("dequeueAny(): " + as.dequeueAny().getName());
+        as.printQueue();
+        System.out.println("dequeueAny(): " + as.dequeueAny().getName());
+        as.printQueue();
+        System.out.println();
 
-        //System.out.println("dequeueDog(): " + as.dequeueDog().getName());
-        //as.printQueue();
-        //System.out.println("dequeueDog(): " + as.dequeueDog().getName());
-        //as.printQueue();
+        System.out.println("dequeueDog(): " + as.dequeueDog().getName());
+        as.printQueue();
+        System.out.println("dequeueDog(): " + as.dequeueDog().getName());
+        as.printQueue();
+        System.out.println();
 
-        //System.out.println("dequeueCat(): " + as.dequeueCat().getName());
-        //as.printQueue();
-        //System.out.println("dequeueCat(): " + as.dequeueCat().getName());
-        //as.printQueue();
+        System.out.println("dequeueCat(): " + as.dequeueCat().getName());
+        as.printQueue();
+        System.out.println("dequeueCat(): " + as.dequeueCat().getName());
+        as.printQueue();
 
     }
 }
