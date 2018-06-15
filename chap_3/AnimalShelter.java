@@ -1017,8 +1017,33 @@ class Rextester
         }
         
         public void enqueue(Animal a) {
+            Animal.globalOrder++;
+            a.order = Animal.globalOrder;
             
-            //animalQueue.add(a);
+            if (a instanceof Dog) {
+                dogQueue.add((Dog)a);
+            } else {
+                catQueue.add((Cat)a);
+            }
+        }
+        
+        public void printQueue() {
+            Iterator<Dog> itd = dogQueue.iterator();
+            Iterator<Cat> itc = catQueue.iterator();
+            
+            System.out.print("Current dog queue: ");
+            while (itd.hasNext()) {
+                Dog d = itd.next();
+                System.out.print(d.getName() + " " + d.getOrder() + " -> ");
+            }
+            System.out.println("null");
+            
+            System.out.print("Current cat queue: ");
+            while (itc.hasNext()) {
+                Cat c = itc.next();
+                System.out.print(c.getName() + " " + c.getOrder() + " -> ");
+            }
+            System.out.println("null");
         }
         
     }
@@ -1026,11 +1051,17 @@ class Rextester
     abstract static class Animal
     {
         private String name;
+        private int order;
+        public static int globalOrder = 0;
         
         public Animal(String n) { name = n; }
         
         public String getName() {
             return name;
+        }
+        
+        public int getOrder() {
+            return order;
         }
     }
     
@@ -1058,9 +1089,6 @@ class Rextester
         System.out.println("3.6: Animal Shelter");
         
         AnimalShelter1 as = new AnimalShelter1();
-        
-/*
-        AnimalShelter as = new AnimalShelter();
         as.enqueue(new Dog("dog1"));
         as.enqueue(new Cat("cat1"));
         as.enqueue(new Cat("cat2"));
@@ -1068,6 +1096,16 @@ class Rextester
         as.enqueue(new Dog("dog2"));
         as.enqueue(new Dog("dog3"));
         as.printQueue();
+
+        
+        AnimalShelter1 as1 = new AnimalShelter1();
+        as1.enqueue(new Dog("dog1"));
+        as1.enqueue(new Cat("cat1"));
+        as1.enqueue(new Cat("cat2"));
+        as1.enqueue(new Cat("cat3"));
+        as1.enqueue(new Dog("dog2"));
+        as1.enqueue(new Dog("dog3"));
+        as1.printQueue();
         
         //System.out.println("dequeueAny(): " + as.dequeueAny().getName());
         //as.printQueue();
@@ -1079,10 +1117,10 @@ class Rextester
         //System.out.println("dequeueDog(): " + as.dequeueDog().getName());
         //as.printQueue();
 
-        System.out.println("dequeueCat(): " + as.dequeueCat().getName());
-        as.printQueue();
-        System.out.println("dequeueCat(): " + as.dequeueCat().getName());
-        as.printQueue();
-*/        
+        //System.out.println("dequeueCat(): " + as.dequeueCat().getName());
+        //as.printQueue();
+        //System.out.println("dequeueCat(): " + as.dequeueCat().getName());
+        //as.printQueue();
+
     }
 }
