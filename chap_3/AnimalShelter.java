@@ -1004,6 +1004,25 @@ class Rextester
         }
     }
     
+    // 3.6: Animal Shelter: use two queues instead of one
+    // Time complexity: 
+    public static class AnimalShelter1
+    {
+        private LinkedList<Dog> dogQueue = null;
+        private LinkedList<Cat> catQueue = null;
+        
+        public AnimalShelter1() {
+            dogQueue = new LinkedList<Dog>();
+            catQueue = new LinkedList<Cat>();
+        }
+        
+        public void enqueue(Animal a) {
+            
+            //animalQueue.add(a);
+        }
+        
+    }
+    
     abstract static class Animal
     {
         private String name;
@@ -1037,7 +1056,10 @@ class Rextester
     {
         // 3.6: Animal Shelter
         System.out.println("3.6: Animal Shelter");
-
+        
+        AnimalShelter1 as = new AnimalShelter1();
+        
+/*
         AnimalShelter as = new AnimalShelter();
         as.enqueue(new Dog("dog1"));
         as.enqueue(new Cat("cat1"));
@@ -1061,5 +1083,6 @@ class Rextester
         as.printQueue();
         System.out.println("dequeueCat(): " + as.dequeueCat().getName());
         as.printQueue();
+*/        
     }
 }
