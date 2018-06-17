@@ -32,6 +32,14 @@ class Rextester
         preOrderTraversal(node.children[0]);
         preOrderTraversal(node.children[1]);
     }
+
+    static void postOrderTraversal(Node node) {
+        if (node == null) return;
+        
+        postOrderTraversal(node.children[0]);
+        postOrderTraversal(node.children[1]);
+        System.out.print(node.value + " ");        
+    }
     
     public static void main(String args[])
     {
@@ -67,5 +75,10 @@ class Rextester
         System.out.println("preOrderTraversal:");
         preOrderTraversal(root);
         System.out.println();
+        
+        System.out.println("postOrderTraversal:");
+        postOrderTraversal(root);
+        System.out.println();
+        
     }
 }
