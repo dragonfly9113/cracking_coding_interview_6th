@@ -1,4 +1,5 @@
-// A simple graph node
+
+  // A simple graph node
   public class Node {
       private int value;
       private Node[] neighbors;
