@@ -1,3 +1,4 @@
+
 public class Graph {
     private int V;
     private Node[] nodes;
@@ -36,4 +37,8 @@ public class Graph {
             n.print();
         }
     }
+
+	public void setNodes(int index, Node n) {
+		nodes[index] = n;
+	}
 }
