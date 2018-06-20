@@ -21,7 +21,7 @@ class Rextester
         }
         
         public void print() {
-            System.out.print("node's value: " + value + " neighbors: ");
+            System.out.print("node " + value + " neighbors: ");
             for (Node n : neighbors) {
                 System.out.print(n.value + " ");
             }
