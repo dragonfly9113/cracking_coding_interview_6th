@@ -10,9 +10,11 @@ class Rextester
     public static class Node {
         private int value;
         private Node[] neighbors;
+        private boolean visited;
         
         public Node(int value) {
             this.value = value;
+            visited = false;
         }
         
         public Node(int value, int numOfEdges) {
@@ -20,8 +22,12 @@ class Rextester
             neighbors = new Node[numOfEdges];
         }
         
+        public int getValue() {
+            return value;
+        }
+        
         public void print() {
-            System.out.print("node " + value + " neighbors: ");
+            System.out.print("node " + value + " has routes to: ");
             for (Node n : neighbors) {
                 System.out.print(n.value + " ");
             }
@@ -38,6 +44,29 @@ class Rextester
             nodes = new Node[V];
         }
         
+        public void dfs(Node root) {
+            visit(root);
+            root.visited = true;
+            
+            for (Node n : root.neighbors) {
+                if (n.visited) continue;
+                
+                dfs(n);
+            }
+        }
+        
+        private void visit(Node node) {
+            System.out.print(node.getValue() + " ");
+        }
+            
+        public Node[] getNodes() {
+            return nodes;
+        }
+        
+        public Node getNode(int index) {
+            return nodes[index];
+        }
+            
         public void print() {
             System.out.println("This graph has " + V + " nodes:");
             for (Node n : nodes) {
@@ -54,7 +83,7 @@ class Rextester
         Graph g = new Graph(numOfNodes);
         
         Node n0 = new Node(0, 3);
-        Node n1 = new Node(1, 1);
+        Node n1 = new Node(1, 2);
         Node n2 = new Node(2, 1);
         Node n3 = new Node(3, 2);
         Node n4 = new Node(4, 0);
@@ -66,6 +95,7 @@ class Rextester
         g.nodes[0] = n0;
         
         n1.neighbors[0] = n4;
+        n1.neighbors[1] = n3;
         g.nodes[1] = n1;
 
         n2.neighbors[0] = n1;
@@ -77,7 +107,11 @@ class Rextester
 
         g.nodes[4] = n4;
         g.nodes[5] = n5;
-
         g.print();
+        
+        int nodeIdx = 0;
+        System.out.println("DFS search from node " + nodeIdx + " :");
+        g.dfs(g.getNode(nodeIdx));
+        System.out.println();
     }
 }
