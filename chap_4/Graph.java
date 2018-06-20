@@ -9,55 +9,75 @@ class Rextester
     // A simple graph node
     public static class Node {
         private int value;
-        private Node[] neighbor;
+        private Node[] neighbors;
         
         public Node(int value) {
             this.value = value;
         }
+        
+        public Node(int value, int numOfEdges) {
+            this.value = value;
+            neighbors = new Node[numOfEdges];
+        }
+        
+        public void print() {
+            System.out.print("node's value: " + value + " neighbors: ");
+            for (Node n : neighbors) {
+                System.out.print(n.value + " ");
+            }
+            System.out.println();
+        }
     }
 
     public static class Graph {
+        private int V;
         private Node[] nodes;
+        
+        public Graph(int v) {
+            V = v;
+            nodes = new Node[V];
+        }
+        
+        public void print() {
+            System.out.println("This graph has " + V + " nodes:");
+            for (Node n : nodes) {
+                n.print();
+            }
+        }
     }
     
     public static void main(String args[])
     {
-        System.out.println("A simple graph");
-/*        
-        // layer 1
-        Node root = new Node(7);
+        System.out.println("A simple directed graph");
         
-        // layer 2
-        Node c1 = new Node(4), c2 = new Node(11);
-        root.children[0] = c1;
-        root.children[1] = c2;
+        int numOfNodes = 6;
+        Graph g = new Graph(numOfNodes);
+        
+        Node n0 = new Node(0, 3);
+        Node n1 = new Node(1, 1);
+        Node n2 = new Node(2, 1);
+        Node n3 = new Node(3, 2);
+        Node n4 = new Node(4, 0);
+        Node n5 = new Node(5, 0);
+        
+        n0.neighbors[0] = n5;
+        n0.neighbors[1] = n4;
+        n0.neighbors[2] = n1;
+        g.nodes[0] = n0;
+        
+        n1.neighbors[0] = n4;
+        g.nodes[1] = n1;
 
-        // layer 3
-        Node c11 = new Node(2), c12 = new Node(6), c21 = new Node(9), c22 = new Node(12);
-        c1.children[0] = c11;
-        c1.children[1] = c12;
-        c2.children[0] = c21;
-        c2.children[1] = c22;
-        
-        // layer 4
-        Node c111 = new Node(1), c112 = new Node(3), c121 = new Node(5), c211 = new Node(8), c212 = new Node(10);
-        c11.children[0] = c111;
-        c11.children[1] = c112;
-        c12.children[0] = c121;
-        c21.children[0] = c211;
-        c21.children[1] = c212;
-        
-        System.out.println("inOrderTraversal:");
-        inOrderTraversal(root);
-        System.out.println();
-        
-        System.out.println("preOrderTraversal:");
-        preOrderTraversal(root);
-        System.out.println();
-        
-        System.out.println("postOrderTraversal:");
-        postOrderTraversal(root);
-        System.out.println();
-*/        
+        n2.neighbors[0] = n1;
+        g.nodes[2] = n2;
+
+        n3.neighbors[0] = n4;
+        n3.neighbors[1] = n2;
+        g.nodes[3] = n3;
+
+        g.nodes[4] = n4;
+        g.nodes[5] = n5;
+
+        g.print();
     }
 }
