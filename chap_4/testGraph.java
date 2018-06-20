@@ -1,3 +1,4 @@
+
 public class testGraph {
 
     public static void main(String args[])
@@ -17,21 +18,21 @@ public class testGraph {
 		n0.getNeighbors()[0] = n5;
 		n0.getNeighbors()[1] = n4;
 		n0.getNeighbors()[2] = n1;
-		g.getNodes()[0] = n0;
+		g.setNodes(0, n0);
   
 		n1.getNeighbors()[0] = n4;
 		n1.getNeighbors()[1] = n3;
-		g.getNodes()[1] = n1;
+		g.setNodes(1, n1);
 		
 		n2.getNeighbors()[0] = n1;
-		g.getNodes()[2] = n2;
+		g.setNodes(2, n2);
 		
 		n3.getNeighbors()[0] = n4;
 		n3.getNeighbors()[1] = n2;
-		g.getNodes()[3] = n3;
+		g.setNodes(3, n3);
 		
-		g.getNodes()[4] = n4;
-		g.getNodes()[5] = n5;
+		g.setNodes(4, n4);
+		g.setNodes(5, n5);
 		g.print();
 		  
 		int nodeIdx = 0;
