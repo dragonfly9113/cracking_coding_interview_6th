@@ -62,6 +62,23 @@ class Rextester
                 dfs(n);
             }
         }
+        
+        public void bfs(Node root) {
+            Queue<Node> q = new LinkedList<Node>();
+            q.add(root);
+            
+            while (!q.isEmpty()) {
+                Node node = q.remove();
+                visit(node);
+                node.visited = true;
+                
+                for (Node n : node.getNeighbors()) {
+                    if (n.visited) continue;
+                    
+                    q.add(n);
+                }
+            }
+        }
 
         private void visit(Node node) {
             System.out.print(node.getValue() + " ");
