@@ -10,63 +10,75 @@ class Rextester
     public static class Node {
         private int value;
         private Node[] neighbors;
-        private boolean visited;
-        
+        boolean visited;
+
         public Node(int value) {
             this.value = value;
             visited = false;
         }
-        
+
         public Node(int value, int numOfEdges) {
             this.value = value;
-            neighbors = new Node[numOfEdges];
+            setNeighbors(new Node[numOfEdges]);
         }
-        
+
         public int getValue() {
             return value;
         }
-        
+
         public void print() {
             System.out.print("node " + value + " has routes to: ");
-            for (Node n : neighbors) {
+            for (Node n : getNeighbors()) {
                 System.out.print(n.value + " ");
             }
             System.out.println();
+        }
+
+        public Node[] getNeighbors() {
+            return neighbors;
+        }
+
+        public void setNeighbors(Node[] neighbors) {
+            this.neighbors = neighbors;
         }
     }
 
     public static class Graph {
         private int V;
         private Node[] nodes;
-        
+
         public Graph(int v) {
             V = v;
             nodes = new Node[V];
         }
-        
+
         public void dfs(Node root) {
             visit(root);
             root.visited = true;
-            
-            for (Node n : root.neighbors) {
+
+            for (Node n : root.getNeighbors()) {
                 if (n.visited) continue;
-                
+
                 dfs(n);
             }
         }
-        
+
         private void visit(Node node) {
             System.out.print(node.getValue() + " ");
         }
-            
+
         public Node[] getNodes() {
             return nodes;
         }
-        
+
         public Node getNode(int index) {
             return nodes[index];
         }
-            
+
+        public void setNodes(int index, Node n) {
+            nodes[index] = n;
+        }
+        
         public void print() {
             System.out.println("This graph has " + V + " nodes:");
             for (Node n : nodes) {
