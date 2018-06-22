@@ -80,6 +80,29 @@ class Rextester
             }
         }
 
+        
+        public LinkedList<Node> bfsWithRoute(Node root) {
+            Queue<Node> q = new LinkedList<Node>();
+            LinkedList<Node> route = new LinkedList<Node>();
+            q.add(root);
+            
+            while (!q.isEmpty()) {
+                Node node = q.remove();
+                //visit(node);
+                route.add(node);
+                node.visited = true;
+                
+                for (Node n : node.getNeighbors()) {
+                    if (n.visited) continue;
+                    
+                    q.add(n);
+                }
+            }
+            
+            clearVisited();
+            return route;
+        }
+        
         private void visit(Node node) {
             System.out.print(node.getValue() + " ");
         }
@@ -104,8 +127,9 @@ class Rextester
         
         public boolean routeBetweenNodes(int index1, int index2) {
             if (index1 < 0 || index1 >= V || index2 < 0 || index2 >= V) throw new IndexOutOfBoundsException();
-            
-            
+
+
+            return bfsWithRoute(getNode(index1)).contains(getNode(index2)) || bfsWithRoute(getNode(index2)).contains(getNode(index1));
         }
         
         
@@ -151,7 +175,6 @@ class Rextester
         g.nodes[5] = n5;
         g.print();
 
-/*        
         int nodeIdx = 0;
         System.out.println("DFS search from node " + nodeIdx + " :");
         g.dfs(g.getNode(nodeIdx));
@@ -161,9 +184,12 @@ class Rextester
         g.clearVisited();
         g.bfs(g.getNode(nodeIdx));
         System.out.println();
-*/
-        int index1 = 0, index2 = 5;
-        System.out.println("There is a route between node " + index1 + " and node " + index2 + " : " + g.routeBetweenNodes(index1, index2));
-        
+
+        g.clearVisited();
+        for (int index1 = 0; index1 < numOfNodes; index1++) {
+            for (int index2 = 0; index2 < numOfNodes; index2++) {
+                System.out.println("There is a route between node " + index1 + " and node " + index2 + " : " + g.routeBetweenNodes(index1, index2));
+            }
+        }
     }
 }
