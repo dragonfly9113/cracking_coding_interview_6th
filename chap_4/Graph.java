@@ -96,6 +96,12 @@ class Rextester
             nodes[index] = n;
         }
         
+        public void clearVisited() {
+            for (Node n : nodes) {
+                n.visited = false;
+            }
+        }
+        
         public void print() {
             System.out.println("This graph has " + V + " nodes:");
             for (Node n : nodes) {
@@ -141,6 +147,11 @@ class Rextester
         int nodeIdx = 0;
         System.out.println("DFS search from node " + nodeIdx + " :");
         g.dfs(g.getNode(nodeIdx));
+        System.out.println();
+
+        System.out.println("BFS search from node " + nodeIdx + " :");
+        g.clearVisited();
+        g.bfs(g.getNode(nodeIdx));
         System.out.println();
     }
 }
