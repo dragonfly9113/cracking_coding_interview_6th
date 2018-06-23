@@ -53,17 +53,43 @@ class Rextester
         }
 
         public void dfs(Node root) {
+            clearVisited();
+            dfsHelper(root);
+        }
+        
+        public void dfsHelper(Node root) {
             visit(root);
             root.visited = true;
 
             for (Node n : root.getNeighbors()) {
                 if (n.visited) continue;
 
-                dfs(n);
+                dfsHelper(n);
+            }
+        }
+
+        public LinkedList<Node> dfsWithRoute(Node root) {
+            clearVisited();
+            LinkedList<Node> route = new LinkedList<Node>();
+            
+            dfsHelper1(root, route);
+            return route;
+        }
+        
+        public void dfsHelper1(Node root, LinkedList<Node> route) {
+            //visit(root);
+            route.add(root);
+            root.visited = true;
+
+            for (Node n : root.getNeighbors()) {
+                if (n.visited) continue;
+
+                dfsHelper1(n, route);
             }
         }
         
         public void bfs(Node root) {
+            clearVisited();
             Queue<Node> q = new LinkedList<Node>();
             q.add(root);
             
@@ -82,6 +108,7 @@ class Rextester
 
         
         public LinkedList<Node> bfsWithRoute(Node root) {
+            clearVisited();
             Queue<Node> q = new LinkedList<Node>();
             LinkedList<Node> route = new LinkedList<Node>();
             q.add(root);
@@ -99,7 +126,6 @@ class Rextester
                 }
             }
             
-            clearVisited();
             return route;
         }
         
@@ -129,7 +155,8 @@ class Rextester
             if (index1 < 0 || index1 >= V || index2 < 0 || index2 >= V) throw new IndexOutOfBoundsException();
 
 
-            return bfsWithRoute(getNode(index1)).contains(getNode(index2)) || bfsWithRoute(getNode(index2)).contains(getNode(index1));
+            //return bfsWithRoute(getNode(index1)).contains(getNode(index2)) || bfsWithRoute(getNode(index2)).contains(getNode(index1));
+            return dfsWithRoute(getNode(index1)).contains(getNode(index2)) || dfsWithRoute(getNode(index2)).contains(getNode(index1));
         }
         
         
@@ -181,11 +208,9 @@ class Rextester
         System.out.println();
 
         System.out.println("BFS search from node " + nodeIdx + " :");
-        g.clearVisited();
         g.bfs(g.getNode(nodeIdx));
         System.out.println();
 
-        g.clearVisited();
         for (int index1 = 0; index1 < numOfNodes; index1++) {
             for (int index2 = 0; index2 < numOfNodes; index2++) {
                 System.out.println("There is a route between node " + index1 + " and node " + index2 + " : " + g.routeBetweenNodes(index1, index2));
