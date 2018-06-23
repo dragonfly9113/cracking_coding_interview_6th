@@ -68,6 +68,9 @@ class Rextester
             }
         }
 
+        // 4.1: Route Between Nodes: use dfs search
+        // dfs search is usually easier to implement since we can use recursion. For this problem, it is as efficient as bfs. However, for some other problems
+        // such as shorted path, bfs search is usually more efficient since it doesn't need to go too deep before visiting neighbors.
         public LinkedList<Node> dfsWithRoute(Node root) {
             clearVisited();
             LinkedList<Node> route = new LinkedList<Node>();
@@ -106,7 +109,9 @@ class Rextester
             }
         }
 
-        
+        // 4.1: Route Between Nodes: use bfs search
+        // bfs is usually harder than dfs to implement since it is not actually recursion.
+        // However for this problem, it is actually more intuitive to use bfs search.
         public LinkedList<Node> bfsWithRoute(Node root) {
             clearVisited();
             Queue<Node> q = new LinkedList<Node>();
@@ -151,6 +156,8 @@ class Rextester
             }
         }
         
+        // 4.1: Route Between Nodes: record all the nodes that node1 can reach and check if node2 is in the list.
+        // if there are lots of nodes that node1 can reach, this method can be very inefficient.
         public boolean routeBetweenNodes(int index1, int index2) {
             if (index1 < 0 || index1 >= V || index2 < 0 || index2 >= V) throw new IndexOutOfBoundsException();
 
