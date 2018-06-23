@@ -133,7 +133,7 @@ class Rextester
             
             return route;
         }
-        
+
         private void visit(Node node) {
             System.out.print(node.getValue() + " ");
         }
@@ -166,6 +166,15 @@ class Rextester
             return dfsWithRoute(getNode(index1)).contains(getNode(index2)) || dfsWithRoute(getNode(index2)).contains(getNode(index1));
         }
         
+        // 4.1: Route between nodes: a better way
+        // Now assume: we only consider the route from node1 (start) to node2 (end) while not consider the vise verse way
+        // No mater bfs or dfs, we don't need to go through and record all nodes that node1 can reach.
+        public boolean searchByBfs(Node start, Node end) {
+            
+            
+            return true;
+        }
+
         
         public void print() {
             System.out.println("This graph has " + V + " nodes:");
@@ -220,7 +229,7 @@ class Rextester
 
         for (int index1 = 0; index1 < numOfNodes; index1++) {
             for (int index2 = 0; index2 < numOfNodes; index2++) {
-                System.out.println("There is a route between node " + index1 + " and node " + index2 + " : " + g.routeBetweenNodes(index1, index2));
+                //System.out.println("There is a route between node " + index1 + " and node " + index2 + " : " + g.routeBetweenNodes(index1, index2));
             }
         }
     }
