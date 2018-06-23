@@ -170,11 +170,33 @@ class Rextester
         // Now assume: we only consider the route from node1 (start) to node2 (end) while not consider the vise verse way
         // No mater bfs or dfs, we don't need to go through and record all nodes that node1 can reach.
         public boolean searchByBfs(Node start, Node end) {
+            if (start == null || end == null) return false;
+            if (start == end) return true;
+    
+            clearVisited();
+            Queue<Node> q = new LinkedList<Node>();
+            q.add(start);
             
+            while (!q.isEmpty()) {
+                Node node = q.remove();
+                if (node != null) {
+                    //visit(node);
+                    if (node == end) {
+                        return true;
+                    } else {
+                        node.visited = true;
+                    }
+                    
+                    for (Node n : node.getNeighbors()) {
+                        if (n.visited) continue;
+                        
+                        q.add(n);
+                    }
+                }
+            }
             
-            return true;
+            return false;
         }
-
         
         public void print() {
             System.out.println("This graph has " + V + " nodes:");
@@ -230,6 +252,8 @@ class Rextester
         for (int index1 = 0; index1 < numOfNodes; index1++) {
             for (int index2 = 0; index2 < numOfNodes; index2++) {
                 //System.out.println("There is a route between node " + index1 + " and node " + index2 + " : " + g.routeBetweenNodes(index1, index2));
+                Node node1 = g.getNode(index1), node2 = g.getNode(index2);
+                System.out.println("There is a route from node " + index1 + " to node " + index2 + " : " + g.searchByBfs(node1, node2));
             }
         }
     }
