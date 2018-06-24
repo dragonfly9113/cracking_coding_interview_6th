@@ -161,15 +161,14 @@ class Rextester
         public boolean routeBetweenNodes(int index1, int index2) {
             if (index1 < 0 || index1 >= V || index2 < 0 || index2 >= V) throw new IndexOutOfBoundsException();
 
-
             //return bfsWithRoute(getNode(index1)).contains(getNode(index2)) || bfsWithRoute(getNode(index2)).contains(getNode(index1));
             return dfsWithRoute(getNode(index1)).contains(getNode(index2)) || dfsWithRoute(getNode(index2)).contains(getNode(index1));
         }
         
-        // 4.1: Route between nodes: a better way
+        // 4.1: Route between nodes: a better way with bfs
         // Now assume: we only consider the route from node1 (start) to node2 (end) while not consider the vise verse way
         // No mater bfs or dfs, we don't need to go through and record all nodes that node1 can reach.
-        public boolean searchByBfs(Node start, Node end) {
+        public boolean searchByBFS(Node start, Node end) {
             if (start == null || end == null) return false;
             if (start == end) return true;
     
@@ -196,6 +195,22 @@ class Rextester
             }
             
             return false;
+        }
+
+        // 4.1: Route between nodes: a better way with dfs
+        // Now assume: we only consider the route from node1 (start) to node2 (end) while not consider the vise verse way 
+        public boolean searchByDFS(Node start, Node end) {
+            if (start == null || end == null) return false;            
+
+            //visit(start);
+            if (start == end) return true;
+            start.visited = true;
+            
+            for (Node n : start.getNeighbors()) {
+                if (n.visited) continue;
+                
+                return searchByDFS(n, end);
+            }
         }
         
         public void print() {
@@ -253,7 +268,8 @@ class Rextester
             for (int index2 = 0; index2 < numOfNodes; index2++) {
                 //System.out.println("There is a route between node " + index1 + " and node " + index2 + " : " + g.routeBetweenNodes(index1, index2));
                 Node node1 = g.getNode(index1), node2 = g.getNode(index2);
-                System.out.println("There is a route from node " + index1 + " to node " + index2 + " : " + g.searchByBfs(node1, node2));
+                //System.out.println("There is a route from node " + index1 + " to node " + index2 + " : " + g.searchByBFS(node1, node2));
+                System.out.println("There is a route from node " + index1 + " to node " + index2 + " : " + g.searchByDFS(node1, node2));
             }
         }
     }
