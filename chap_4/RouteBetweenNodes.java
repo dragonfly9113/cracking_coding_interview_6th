@@ -197,19 +197,22 @@ class Rextester
             return false;
         }
 
-        // 4.1: Route between nodes: a better way with dfs :so far this method doesn't work!!! Having hard time to return value in recursive way
+        // 4.1: Route between nodes: a better way with dfs
         // Now assume: we only consider the route from node1 (start) to node2 (end) while not consider the vise verse way 
         public boolean searchByDFS(Node start, Node end) {
+            clearVisited();
+            return searchByDFSHelper(start, end);
+        }
+        
+        private boolean searchByDFSHelper(Node start, Node end) {
             if (start == null || end == null) return false;            
-
-            //visit(start);
             if (start == end) return true;
             start.visited = true;
             
             for (Node n : start.getNeighbors()) {
                 if (n.visited) continue;
                 
-                boolean ret = searchByDFS(n, end);
+                boolean ret = searchByDFSHelper(n, end);
                 if (ret) return ret;
             }
             
