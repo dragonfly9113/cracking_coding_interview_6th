@@ -105,5 +105,17 @@ class Rextester
         Node root = insertNode(arr);
         
         print2D(root);
+        
+        System.out.println();
+        System.out.println("inOrder traverse");
+        inOrderTraversal(root);
+        
+        System.out.println();        
+        System.out.println("preOrder traverse");
+        preOrderTraversal(root);
+
+        System.out.println();        
+        System.out.println("postOrder traverse");
+        postOrderTraversal(root);
     }
 }
