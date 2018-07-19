@@ -6,6 +6,8 @@ import java.lang.*;
 
 class Rextester
 {  
+    private static final int COUNT = 10;
+        
     // A simple tree node
     public static class Node {
         public int value;
@@ -45,11 +47,11 @@ class Rextester
     //to create a tree of minimal height, we need to match the number of nodes in the left subtyree to the number of nodes in the right subtree
     //as much as possible.
     // One way: inserts the value v through a recrusive process that starts with the root node.
-    Node insertNode(int[] arr) {
+    static Node insertNode(int[] arr) {
         return insertNode(arr, 0, arr.length - 1);
     }
     
-    Node insertNode(int[] arr, int start, int end) {
+    static Node insertNode(int[] arr, int start, int end) {
         if (start > end) return null;
         
         int mid = (start + end) / 2;
@@ -62,44 +64,46 @@ class Rextester
         return root;
     }
     
+    // Wrapper over print2DUtil()
+    static void print2D(Node root)
+    {
+       // Pass initial space count as 0
+       print2DUtil(root, 0);
+    }
+    
+    // Function to print binary tree in 2D
+    // It does reverse inorder traversal
+    static void print2DUtil(Node root, int space)
+    {
+        // Base case
+        if (root == null)
+            return;
+
+        // Increase distance between levels
+        space += COUNT;
+
+        // Process right child first
+        print2DUtil(root.children[1], space);
+
+        // Print current node after space
+        // count
+        System.out.println();
+        for (int i = COUNT; i < space; i++)
+            System.out.print(" ");
+        System.out.println(root.value);
+
+        // Process left child
+        print2DUtil(root.children[0], space);
+    }
+
     public static void main(String args[])
     {
-        System.out.println("A simple binary search tree");
+        //System.out.println("A simple binary search tree");
+        System.out.println("Create a minimal height binary search tree from an array");
+        //int[] arr = new int[]{1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21};
+        int[] arr = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        Node root = insertNode(arr);
         
-        // layer 1
-        Node root = new Node(7);
-        
-        // layer 2
-        Node c1 = new Node(4), c2 = new Node(11);
-        root.children[0] = c1;
-        root.children[1] = c2;
-
-        // layer 3
-        Node c11 = new Node(2), c12 = new Node(6), c21 = new Node(9), c22 = new Node(12);
-        c1.children[0] = c11;
-        c1.children[1] = c12;
-        c2.children[0] = c21;
-        c2.children[1] = c22;
-        
-        // layer 4
-        Node c111 = new Node(1), c112 = new Node(3), c121 = new Node(5), c211 = new Node(8), c212 = new Node(10);
-        c11.children[0] = c111;
-        c11.children[1] = c112;
-        c12.children[0] = c121;
-        c21.children[0] = c211;
-        c21.children[1] = c212;
-        
-        System.out.println("inOrderTraversal:");
-        inOrderTraversal(root);
-        System.out.println();
-        
-        System.out.println("preOrderTraversal:");
-        preOrderTraversal(root);
-        System.out.println();
-        
-        System.out.println("postOrderTraversal:");
-        postOrderTraversal(root);
-        System.out.println();
-        
+        print2D(root);
     }
 }
