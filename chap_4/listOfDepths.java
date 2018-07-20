@@ -63,13 +63,43 @@ class Rextester
         
         return root;
     }
+
+    static void dfs(Node root) {
+        if (root == null) return;
+        
+        visit(root);
+
+        for (Node n : root.children) {
+            //if (n == null || n.visited) continue;
+            dfs(n);
+        }
+    }
+
+    static void bfs(Node root) {
+        Queue<Node> q = new LinkedList<Node>();
+        q.add(root);
+
+        while (!q.isEmpty()) {
+            Node node = q.remove();
+            visit(node);
+
+            for (Node n : node.children) {
+                if (n == null) continue;
+                
+                q.add(n);
+            }
+        }
+    }
+
+    static void visit(Node node) {
+        System.out.print(node.value + " ");
+    }    
     
     //4.3: List of Depths: Given a binary tree, design an alogrimthm which creates a linked list of all the nodes at each depth (e.g., if you have
     // a tree with depth D, you'll have D linked lists)
     
-    
-    
-    
+
+
     // Wrapper over print2DUtil()
     static void print2D(Node root)
     {
@@ -104,14 +134,19 @@ class Rextester
 
     public static void main(String args[])
     {
-        //System.out.println("A simple binary search tree");
-        System.out.println("Create a minimal height binary search tree from an array");
-        //int[] arr = new int[]{1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21};
+        System.out.println("Create a linked list of all the nodes at each depth");
         int[] arr = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         Node root = insertNode(arr);
+        //print2D(root);
         
-        print2D(root);
+        System.out.println("dfs search result:");
+        dfs(root);
+
+        System.out.println();
+        System.out.println("bfs search result:");
+        bfs(root);
         
+        /*
         System.out.println();
         System.out.println("inOrder traverse");
         inOrderTraversal(root);
@@ -123,5 +158,6 @@ class Rextester
         System.out.println();        
         System.out.println("postOrder traverse");
         postOrderTraversal(root);
+        */
     }
 }
