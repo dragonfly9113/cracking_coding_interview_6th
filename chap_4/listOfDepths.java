@@ -108,11 +108,10 @@ class Rextester
     static void dfsUtil(Node root, int depth, ArrayList<LinkedList<Node>> arr) {
         if (root == null) return;
 
-        //visit(root);
         addNodeToList(root, depth, arr);
 
         for (Node n : root.children) {
-            dfsUtil(n, depth, arr);
+            dfsUtil(n, depth + 1, arr);
         }
     }
 
@@ -172,10 +171,21 @@ class Rextester
         
         System.out.println("dfs search result:");
         dfs(root);
-
         System.out.println();
+        
         System.out.println("bfs search result:");
         bfs(root);
+        System.out.println();
+        
+        System.out.println("Create list of depths:");
+        ArrayList<LinkedList<Node>> al = listOfDepths(root);
+        for (LinkedList<Node> ll : al) {
+            //System.out.println(ll);
+            for (Node n : ll) {
+                System.out.print(n.value + " ");
+            }
+            System.out.println();
+        }
         
     }
 }
