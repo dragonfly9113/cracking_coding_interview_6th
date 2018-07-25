@@ -97,8 +97,39 @@ class Rextester
     
     //4.3: List of Depths: Given a binary tree, design an alogrimthm which creates a linked list of all the nodes at each depth (e.g., if you have
     // a tree with depth D, you'll have D linked lists)
-    
+    static ArrayList<LinkedList<Node>> listOfDepths(Node root) {
+        ArrayList<LinkedList<Node>> arr = new ArrayList<LinkedList<Node>>();
+        
+        dfsUtil(root, 0, arr);
+        
+        return arr;
+    }
 
+    static void dfsUtil(Node root, int depth, ArrayList<LinkedList<Node>> arr) {
+        if (root == null) return;
+
+        //visit(root);
+        addNodeToList(root, depth, arr);
+
+        for (Node n : root.children) {
+            dfsUtil(n, depth, arr);
+        }
+    }
+
+    static void addNodeToList(Node root, int depth, ArrayList<LinkedList<Node>> arr) {
+        if (depth < 0) return;
+        
+        LinkedList<Node> ll = null;
+        if (depth < arr.size()) {
+            ll = arr.get(depth);
+            
+            ll.add(root);
+        } else {
+            ll = new LinkedList<Node>();
+            ll.add(root);
+            arr.add(depth, ll);
+        }
+    }
 
     // Wrapper over print2DUtil()
     static void print2D(Node root)
@@ -146,18 +177,5 @@ class Rextester
         System.out.println("bfs search result:");
         bfs(root);
         
-        /*
-        System.out.println();
-        System.out.println("inOrder traverse");
-        inOrderTraversal(root);
-        
-        System.out.println();        
-        System.out.println("preOrder traverse");
-        preOrderTraversal(root);
-
-        System.out.println();        
-        System.out.println("postOrder traverse");
-        postOrderTraversal(root);
-        */
     }
 }
