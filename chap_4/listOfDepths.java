@@ -116,6 +116,7 @@ class Rextester
     }
 
     // trying to use BFS to create the lists of depths, but I how to set the correct value for depth?
+    // The book has an implementation of this method (using a modified BFS), but I don't understand it.
     static void bfsUtil(Node root, int depth, ArrayList<LinkedList<Node>> arr) {
         Queue<Node> q = new LinkedList<Node>();
         q.add(root);
