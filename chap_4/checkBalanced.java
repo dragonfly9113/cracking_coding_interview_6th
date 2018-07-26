@@ -149,6 +149,16 @@ class Rextester
         }
     }
     
+    // 4.4: Check Balaned: implement a function to check if a binary tree is balanced. For the purpose of this question,
+    // a balanced tree is defined to be a tree such that the heights of the two subtrees of any node never differ by more than one.
+    // Note:
+    // The height of a node is the number of edges on the longest path between that node and a leaf.
+    // The height of a tree is the height of its root node.
+    // The level of a node is defined as: 1 + the number of edges between the node and the root.
+
+    
+    
+    
     // Wrapper over print2DUtil()
     static void print2D(Node root)
     {
