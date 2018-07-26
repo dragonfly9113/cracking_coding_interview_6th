@@ -115,6 +115,24 @@ class Rextester
         }
     }
 
+    // trying to use BFS to create the lists of depths, but I how to set the correct value for depth?
+    static void bfsUtil(Node root, int depth, ArrayList<LinkedList<Node>> arr) {
+        Queue<Node> q = new LinkedList<Node>();
+        q.add(root);
+
+        while (!q.isEmpty()) {
+            Node node = q.remove();
+            //visit(node);
+            addNodeToList(node, depth, arr);
+
+            for (Node n : node.children) {
+                if (n == null) continue;
+                
+                q.add(n);
+            }
+        }
+    }
+    
     static void addNodeToList(Node root, int depth, ArrayList<LinkedList<Node>> arr) {
         if (depth < 0) return;
         
@@ -129,7 +147,7 @@ class Rextester
             arr.add(depth, ll);
         }
     }
-
+    
     // Wrapper over print2DUtil()
     static void print2D(Node root)
     {
@@ -180,7 +198,6 @@ class Rextester
         System.out.println("Create list of depths:");
         ArrayList<LinkedList<Node>> al = listOfDepths(root);
         for (LinkedList<Node> ll : al) {
-            //System.out.println(ll);
             for (Node n : ll) {
                 System.out.print(n.value + " ");
             }
