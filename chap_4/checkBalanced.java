@@ -70,7 +70,6 @@ class Rextester
         visit(root);
 
         for (Node n : root.children) {
-            //if (n == null || n.visited) continue;
             dfs(n);
         }
     }
@@ -149,15 +148,37 @@ class Rextester
         }
     }
     
-    // 4.4: Check Balaned: implement a function to check if a binary tree is balanced. For the purpose of this question,
+    // 4.4: Check Balanced: implement a function to check if a binary tree is balanced. For the purpose of this question,
     // a balanced tree is defined to be a tree such that the heights of the two subtrees of any node never differ by more than one.
     // Note:
     // The height of a node is the number of edges on the longest path between that node and a leaf.
     // The height of a tree is the height of its root node.
     // The level of a node is defined as: 1 + the number of edges between the node and the root.
+    static boolean checkBalancedDFS(Node root) {
+        if (root == null) return false;
+        
+        //visit(root);
+        int h1 = getHeightOfNode(root.children[0]);
+        int h2 = getHeightOfNode(root.children[1]);
+        if (Math.abs(h1 - h2) > 1) return false;
+            
+        for (Node n : root.children) {
+            dfs(n);
+        }
+        
+        return true;
+    }
+    
+    // The brute force way: for each node, try to calculate the height of each of its subtrees and then compare.
+    // How to calculate the height of a node (the root of a substree)? - easiest way is to use a recursive function.
+    static int getHeightOfNode(Node root) {
+        if (root == null || (root.children[0] == null && root.children[1] == null)) return 0;
 
-    
-    
+        int h1 = getHeightOfNode(root.children[0]);
+        int h2 = getHeightOfNode(root.children[1]);
+        
+        return Math.max(h1, h2) + 1;
+    }
     
     // Wrapper over print2DUtil()
     static void print2D(Node root)
@@ -193,9 +214,34 @@ class Rextester
 
     public static void main(String args[])
     {
-        System.out.println("Create a linked list of all the nodes at each depth");
-        int[] arr = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        Node root = insertNode(arr);
+        // layer 1
+        Node root = new Node(7);
+        
+        // layer 2
+        Node c1 = new Node(4), c2 = new Node(11);
+        root.children[0] = c1;
+        root.children[1] = c2;
+
+        // layer 3
+        Node c11 = new Node(2), c12 = new Node(6), c21 = new Node(9), c22 = new Node(12);
+        c1.children[0] = c11;
+        c1.children[1] = c12;
+        c2.children[0] = c21;
+        c2.children[1] = c22;
+        
+        // layer 4
+        Node c111 = new Node(1), c112 = new Node(3), c121 = new Node(5), c211 = new Node(8), c212 = new Node(10);
+        c11.children[0] = c111;
+        c11.children[1] = c112;
+        c12.children[0] = c121;
+        c21.children[0] = c211;
+        c21.children[1] = c212;        
+
+        // change the tree to make it unbalanced:
+        Node c2122 = new Node(13), c21222 = new Node(14);
+        c212.children[1] = c2122;
+        //c2122.children[1] = c21222;
+        
         //print2D(root);
         
         System.out.println("dfs search result:");
@@ -206,14 +252,8 @@ class Rextester
         bfs(root);
         System.out.println();
         
-        System.out.println("Create list of depths:");
-        ArrayList<LinkedList<Node>> al = listOfDepths(root);
-        for (LinkedList<Node> ll : al) {
-            for (Node n : ll) {
-                System.out.print(n.value + " ");
-            }
-            System.out.println();
-        }
-        
+        System.out.println("Check balanced:");
+        System.out.println("The height of root: " + getHeightOfNode(root));
+        System.out.println("The binary tree is balanced: " + checkBalancedDFS(root));
     }
 }
