@@ -154,6 +154,8 @@ class Rextester
     // The height of a node is the number of edges on the longest path between that node and a leaf.
     // The height of a tree is the height of its root node.
     // The level of a node is defined as: 1 + the number of edges between the node and the root.
+    
+    // This DFS version is not working...
     static boolean checkBalancedDFS(Node root) {
         if (root == null) return false;
         
@@ -165,6 +167,35 @@ class Rextester
         for (Node n : root.children) {
             dfs(n);
         }
+        
+        return true;
+    }
+    
+    static boolean checkBalancedBFS(Node root) {
+        Queue<Node> q = new LinkedList<Node>();
+        q.add(root);
+
+        while (!q.isEmpty()) {
+            Node node = q.remove();
+            //visit(node);
+            if (false == checkNodeBalance(node)) return false;
+
+            for (Node n : node.children) {
+                if (n == null) continue;
+                
+                q.add(n);
+            }
+        }
+        
+        return true;
+    }
+    
+    static boolean checkNodeBalance(Node root) {
+        if (root == null) return true;
+        
+        int h1 = getHeightOfNode(root.children[0]);
+        int h2 = getHeightOfNode(root.children[1]);
+        if (Math.abs(h1 - h2) > 1) return false;
         
         return true;
     }
@@ -254,6 +285,6 @@ class Rextester
         
         System.out.println("Check balanced:");
         System.out.println("The height of root: " + getHeightOfNode(root));
-        System.out.println("The binary tree is balanced: " + checkBalancedDFS(root));
+        System.out.println("The binary tree is balanced: " + checkBalancedBFS(root));
     }
 }
