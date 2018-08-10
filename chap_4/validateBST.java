@@ -245,10 +245,22 @@ class Rextester
     // A binary search tree is a binary tree in which every node fits a specific ordering property:
     // all left descendents <= n < all right descendents. This must be tree for each node n.
     // Hints: 35, 57, 86, 113, 128
-    
-    
-    
-    
+    static boolean isBST(Node root) {
+        if (root == null) return true;
+        
+        Node leftNode = root.children[0];
+        Node rightNode = root.children[1];
+        
+        if (leftNode == null && rightNode == null) return true;
+        
+        if (leftNode == null && rightNode.value > root.value && isBST(rightNode)) return true;
+
+        if (rightNode == null && leftNode.value <= root.value && isBST(leftNode)) return true;
+        
+        if (leftNode.value <= root.value && rightNode.value > root.value && isBST(leftNode) && isBST(rightNode)) return true;
+        
+        return false;
+    }
     
     // Wrapper over print2DUtil()
     static void print2D(Node root)
@@ -307,11 +319,6 @@ class Rextester
         c21.children[0] = c211;
         c21.children[1] = c212;        
 
-        // change the tree to make it unbalanced:
-        Node c2122 = new Node(13), c21222 = new Node(14);
-        //c212.children[1] = c2122;
-        //c2122.children[1] = c21222;
-        
         //print2D(root);
         
         System.out.println("dfs search result:");
@@ -322,10 +329,7 @@ class Rextester
         bfs(root);
         System.out.println();
         
-        System.out.println("Check balanced:");
-        //System.out.println("The height of root: " + getHeightOfNode(root));
-        //System.out.println("The binary tree is balanced: " + checkBalancedBFS(root));
-        System.out.println("The height of root: " + getHeight(root));
-        System.out.println("The binary tree is balanced: " + isBalanced(root));
+        System.out.println("Validate BST:");
+        System.out.println("The binary tree is BST: " + isBST(root));
     }
 }
