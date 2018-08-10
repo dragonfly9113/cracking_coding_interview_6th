@@ -245,6 +245,8 @@ class Rextester
     // A binary search tree is a binary tree in which every node fits a specific ordering property:
     // all left descendents <= n < all right descendents. This must be tree for each node n.
     // Hints: 35, 57, 86, 113, 128
+    
+    // Solution 1: based on the definition of BST, intuitively we can check BST like below.
     static boolean isBST(Node root) {
         if (root == null) return true;
         
@@ -321,12 +323,8 @@ class Rextester
 
         //print2D(root);
         
-        System.out.println("dfs search result:");
-        dfs(root);
-        System.out.println();
-        
-        System.out.println("bfs search result:");
-        bfs(root);
+        System.out.println("in order trasveral:");
+        inOrderTraversal(root);
         System.out.println();
         
         System.out.println("Validate BST:");
