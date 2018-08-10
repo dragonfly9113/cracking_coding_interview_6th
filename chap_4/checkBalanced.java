@@ -155,6 +155,7 @@ class Rextester
     // The height of a tree is the height of its root node.
     // The level of a node is defined as: 1 + the number of edges between the node and the root.
     
+    // Solution 1:
     // This DFS version is not working...
     static boolean checkBalancedDFS(Node root) {
         if (root == null) return false;
@@ -171,6 +172,7 @@ class Rextester
         return true;
     }
     
+    // Time complexity: O(N * log(N))
     static boolean checkBalancedBFS(Node root) {
         Queue<Node> q = new LinkedList<Node>();
         q.add(root);
@@ -209,6 +211,34 @@ class Rextester
         int h2 = getHeightOfNode(root.children[1]);
         
         return Math.max(h1, h2) + 1;
+    }
+    
+    // Solution 2:
+    // The above way of checking balance is not efficient, because for each node, we will repeatlly call getHeightOfNode() to calculate
+    // the height of its two subtrees. Therefore for some nodes, its height will be calculated multiple times which is a waste.
+    // Please note that in method getHeightOfNode(), since we will calculate the heights of its two substrees, we are in a good position
+    // to judge if this tree (with the node as its root) is balanced or not. If this tree is unbalanced, we will return an error code
+    // right away, thus avoiding unnecessarily recursing more into other nodes.
+    // Error code: -1 ---- the node is null
+    //             MIN_VALUE ---- the tree (with the node as root) is unbalanced
+    // Time complexity: O(N)
+    static int getHeight(Node root) {
+        if (root == null) return -1;
+        
+        int h1 = getHeight(root.children[0]);
+        if (h1 == Integer.MIN_VALUE) return Integer.MIN_VALUE;
+        
+        int h2 = getHeight(root.children[1]);
+        if (h2 == Integer.MIN_VALUE) return Integer.MIN_VALUE;
+        
+        if (Math.abs(h1 - h2) > 1)
+            return Integer.MIN_VALUE;
+        else
+            return Math.max(h1, h2) + 1;
+    }
+    
+    static boolean isBalanced(Node root) {
+        return getHeight(root) != Integer.MIN_VALUE;
     }
     
     // Wrapper over print2DUtil()
@@ -270,7 +300,7 @@ class Rextester
 
         // change the tree to make it unbalanced:
         Node c2122 = new Node(13), c21222 = new Node(14);
-        c212.children[1] = c2122;
+        //c212.children[1] = c2122;
         //c2122.children[1] = c21222;
         
         //print2D(root);
@@ -284,7 +314,9 @@ class Rextester
         System.out.println();
         
         System.out.println("Check balanced:");
-        System.out.println("The height of root: " + getHeightOfNode(root));
-        System.out.println("The binary tree is balanced: " + checkBalancedBFS(root));
+        //System.out.println("The height of root: " + getHeightOfNode(root));
+        //System.out.println("The binary tree is balanced: " + checkBalancedBFS(root));
+        System.out.println("The height of root: " + getHeight(root));
+        System.out.println("The binary tree is balanced: " + isBalanced(root));
     }
 }
